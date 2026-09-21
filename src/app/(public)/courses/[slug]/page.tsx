@@ -6,7 +6,6 @@ import { useParams, useRouter } from "next/navigation";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { toast } from "sonner";
 import {
-  Bell,
   BookOpen,
   CalendarDays,
   CheckCircle2,
@@ -15,6 +14,7 @@ import {
   FileText,
   GraduationCap,
   HelpCircle,
+  Info,
   Loader2,
   PlayCircle,
   Star,
@@ -25,12 +25,15 @@ import { cn } from "cn";
 import { apiFetch } from "@/lib/api";
 import { useAuth } from "@/lib/auth-context";
 import type {
+  Batch,
+  BatchListData,
   Course,
   CourseListData,
   EnrollmentListData,
   EnrollmentResponse,
   LessonType,
   Module,
+  Review,
   ReviewListData,
   ReviewStats,
 } from "@/types";
@@ -40,7 +43,9 @@ import {
   LEVEL_BADGE_CLASS,
 } from "@/lib/course-utils";
 import { CourseThumbnail } from "@/components/course/CourseThumbnail";
+import { ReviewDialog } from "@/components/course/ReviewDialog";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
@@ -81,6 +86,7 @@ export default function CourseDetailPage() {
   const router = useRouter();
   const { user } = useAuth();
   const isAdmin = user?.role === "ADMIN";
+  const [reviewDialogOpen, setReviewDialogOpen] = useState(false);
 
   const courseQuery = useQuery({
     queryKey: ["course", slug],
@@ -98,7 +104,7 @@ export default function CourseDetailPage() {
   const modules = useMemo<Module[]>(() => course?.modules ?? [], [course]);
 
   const reviewQuery = useQuery({
-    queryKey: ["reviews", course?.id],
+    queryKey: ["reviews", "course", course?.id],
     enabled: Boolean(course?.id),
     queryFn: async () => {
       const res = await apiFetch<ReviewListData>(`/reviews/course/${course!.id}`);
@@ -123,6 +129,18 @@ export default function CourseDetailPage() {
         `/enrollments/my/${user!.id}`
       );
       return res.data?.enrollments ?? [];
+    },
+  });
+
+  // Full batch details (counts + modules) for BATCH course hero stats/grid.
+  const batchesQuery = useQuery({
+    queryKey: ["batches", "course", course?.id],
+    enabled: Boolean(course?.id) && course?.courseType === "BATCH",
+    queryFn: async () => {
+      const res = await apiFetch<BatchListData>(
+        `/batches/course/${course!.id}`
+      );
+      return res.data?.batches ?? [];
     },
   });
 
@@ -165,8 +183,29 @@ export default function CourseDetailPage() {
     0
   );
 
-  const students = course?._count?.enrollments ?? 0;
-  const modulesCount = course?._count?.modules ?? modules.length;
+  const batchDetails = batchesQuery.data ?? [];
+  const activeBatchForStats = batchDetails.find(
+    (batch) => batch.status === "ACTIVE"
+  );
+  const isBatchCourse = course?.courseType === "BATCH";
+  const activeBatchLessons =
+    activeBatchForStats?.modules?.reduce(
+      (total, module) => total + (module.lessons?.length ?? 0),
+      0
+    ) ?? 0;
+
+  const students =
+    isBatchCourse && activeBatchForStats
+      ? activeBatchForStats._count?.enrollments ??
+        (course?._count?.enrollments ?? 0)
+      : (course?._count?.enrollments ?? 0);
+  const modulesCount =
+    isBatchCourse && activeBatchForStats
+      ? activeBatchForStats._count?.modules ??
+        (course?._count?.modules ?? modules.length)
+      : (course?._count?.modules ?? modules.length);
+  const lessonsShown =
+    isBatchCourse && activeBatchForStats ? activeBatchLessons : lessonsCount;
   const rating = statsQuery.data?.average ?? reviewQuery.data?.averageRating ?? 0;
   const reviewsCount =
     statsQuery.data?.total ?? reviewQuery.data?.total ?? course?._count?.reviews ?? 0;
@@ -231,10 +270,24 @@ export default function CourseDetailPage() {
     );
   }
 
-  const batches = course.batches ?? [];
-  const reviews = reviewQuery.data?.reviews ?? [];
+  const batches: Batch[] =
+    batchDetails.length > 0 ? batchDetails : ((course.batches ?? []) as Batch[]);
+  const reviews: Review[] = reviewQuery.data?.reviews ?? [];
   const breakdown =
     statsQuery.data?.starBreakdown ?? reviewQuery.data?.starBreakdown;
+
+  // Review eligibility: enrolled (ACTIVE/COMPLETED) in THIS course, learner-only, one per course.
+  // Works for BATCH courses automatically (enrollment includes batchId).
+  const enrollments = myEnrollQuery.data ?? [];
+  const myEnrollment = enrollments.find(
+    (enrollment) =>
+      enrollment.courseId === course.id &&
+      (enrollment.status === "ACTIVE" || enrollment.status === "COMPLETED")
+  );
+  const isEnrolled = Boolean(myEnrollment);
+  const myReview = reviews.find((review) => review.learner?.id === user?.id);
+  const canReview = user?.role === "LEARNER" && isEnrolled && !myReview;
+  const alreadyReviewed = Boolean(myReview);
 
   return (
     <div className="pb-20">
@@ -314,7 +367,7 @@ export default function CourseDetailPage() {
               <span className="inline-flex items-center gap-1.5 text-muted-foreground">
                 <PlayCircle className="size-4" />
                 <span className="font-semibold text-foreground">
-                  {lessonsCount}
+                  {lessonsShown}
                 </span>
                 lessons
               </span>
@@ -386,7 +439,7 @@ export default function CourseDetailPage() {
                   <ul className="space-y-2.5 text-sm">
                     <IncludedItem>Full lifetime access</IncludedItem>
                     <IncludedItem>Certificate of completion</IncludedItem>
-                    <IncludedItem>{lessonsCount} lessons</IncludedItem>
+                    <IncludedItem>{lessonsShown} lessons</IncludedItem>
                     <IncludedItem>{modulesCount} modules</IncludedItem>
                   </ul>
                 </div>
@@ -402,7 +455,7 @@ export default function CourseDetailPage() {
               <CalendarDays className="size-6 text-primary" />
               Available Batches
             </h2>
-            <p className="mt-1 text-sm text-muted-foreground">
+            <p className="mb-4 mt-1 text-sm text-muted-foreground">
               Pick a cohort that fits your schedule.
             </p>
 
@@ -419,7 +472,7 @@ export default function CourseDetailPage() {
                 </div>
               </div>
             ) : (
-              <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
                 {batches.map((batch) => (
                   <BatchDetailCard
                     key={batch.id}
@@ -428,6 +481,7 @@ export default function CourseDetailPage() {
                     startDate={batch.startDate}
                     endDate={batch.endDate}
                     status={batch.status}
+                    enrollments={batch._count?.enrollments ?? 0}
                     admin={isAdmin}
                     pending={enrollMutation.isPending}
                     disabled={Boolean(existingEnrollment)}
@@ -507,14 +561,75 @@ export default function CourseDetailPage() {
 
           {/* REVIEWS */}
           <TabsContent value="reviews" className="mt-8">
-            {reviews.length === 0 ? (
-              <EmptyBlock
-                icon={<Star className="size-7" />}
-                title="No reviews yet"
-                subtitle="Be the first to share your experience."
-              />
-            ) : (
-              <div className="grid gap-8 lg:grid-cols-3">
+            <div className="flex flex-wrap items-center justify-between gap-4">
+              <div className="flex items-center gap-3">
+                <p className="text-4xl font-bold leading-none">
+                  {rating.toFixed(1)}
+                </p>
+                <div>
+                  <Stars value={rating} size="size-5" />
+                  <p className="mt-1 text-sm text-muted-foreground">
+                    {reviews.length}{" "}
+                    {reviews.length === 1 ? "review" : "reviews"}
+                  </p>
+                </div>
+              </div>
+
+              {canReview && (
+                <Button onClick={() => setReviewDialogOpen(true)}>
+                  <Star className="size-4 mr-2" />
+                  Write a Review
+                </Button>
+              )}
+
+              {alreadyReviewed && (
+                <Badge
+                  variant="outline"
+                  className="border-green-200 bg-green-50 text-green-700"
+                >
+                  <CheckCircle2 className="size-4 mr-1.5" />
+                  You&apos;ve reviewed this course
+                </Badge>
+              )}
+            </div>
+
+            {!user && (
+              <div
+                role="alert"
+                className="mt-6 flex items-center gap-2 rounded-lg border bg-muted/50 px-4 py-3 text-sm"
+              >
+                <Info className="size-4 shrink-0" />
+                <p>
+                  <Link href="/login" className="font-medium underline">
+                    Login
+                  </Link>{" "}
+                  to write a review for this course.
+                </p>
+              </div>
+            )}
+
+            {user && user.role === "LEARNER" && !isEnrolled && (
+              <div
+                role="alert"
+                className="mt-6 flex items-center gap-2 rounded-lg border border-blue-200 bg-blue-50 px-4 py-3 text-sm text-blue-800"
+              >
+                <Info className="size-4 shrink-0 text-blue-700" />
+                <p>Enroll in this course to write a review.</p>
+              </div>
+            )}
+
+            {user && user.role === "ADMIN" && (
+              <div
+                role="alert"
+                className="mt-6 flex items-center gap-2 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800"
+              >
+                <Info className="size-4 shrink-0 text-amber-700" />
+                <p>Admins cannot write reviews. Only learners can.</p>
+              </div>
+            )}
+
+            {reviews.length > 0 ? (
+              <div className="mt-8 grid gap-8 lg:grid-cols-3">
                 <div className="rounded-2xl border bg-card p-6 text-center">
                   <p className="text-5xl font-bold">{rating.toFixed(1)}</p>
                   <div className="mt-2 flex justify-center">
@@ -590,10 +705,34 @@ export default function CourseDetailPage() {
                   ))}
                 </div>
               </div>
+            ) : (
+              <div className="mt-8 py-12 text-center">
+                <div className="mx-auto mb-4 flex size-16 items-center justify-center rounded-full bg-muted">
+                  <Star className="size-8 text-muted-foreground" />
+                </div>
+                <h3 className="mb-2 text-lg font-semibold">No reviews yet</h3>
+                <p className="mb-4 text-muted-foreground">
+                  Be the first to share your experience.
+                </p>
+                {canReview && (
+                  <Button onClick={() => setReviewDialogOpen(true)}>
+                    <Star className="size-4 mr-2" />
+                    Write the First Review
+                  </Button>
+                )}
+              </div>
             )}
           </TabsContent>
         </Tabs>
       </div>
+
+      <ReviewDialog
+        open={reviewDialogOpen}
+        onOpenChange={setReviewDialogOpen}
+        courseId={course.id}
+        courseName={course.title}
+        onSuccess={() => setReviewDialogOpen(false)}
+      />
     </div>
   );
 }
@@ -736,6 +875,7 @@ function BatchDetailCard({
   startDate,
   endDate,
   status,
+  enrollments,
   admin,
   pending,
   disabled,
@@ -746,36 +886,68 @@ function BatchDetailCard({
   startDate?: string;
   endDate?: string;
   status?: "UPCOMING" | "ACTIVE" | "COMPLETED";
+  enrollments: number;
   admin: boolean;
   pending: boolean;
   disabled: boolean;
   onEnroll: () => void;
 }) {
+  const s = status ?? "UPCOMING";
+
+  const containerClass =
+    s === "ACTIVE"
+      ? "border-2 border-green-200 bg-green-50/30"
+      : s === "UPCOMING"
+        ? "border-2 border-amber-200 bg-amber-50/30"
+        : "border border-gray-200 opacity-70";
+
   const badge =
-    status === "ACTIVE"
-      ? { label: "🔥 ACTIVE", className: "bg-green-100 text-green-700" }
-      : status === "UPCOMING"
-        ? { label: "⏰ UPCOMING", className: "bg-amber-100 text-amber-700" }
-        : { label: "✓ COMPLETED", className: "bg-gray-200 text-gray-600" };
+    s === "ACTIVE"
+      ? { label: "ACTIVE", className: "bg-green-100 text-green-700", dot: "bg-green-500" }
+      : s === "UPCOMING"
+        ? { label: "UPCOMING", className: "bg-amber-100 text-amber-700", dot: "bg-amber-500" }
+        : { label: "COMPLETED", className: "bg-gray-200 text-gray-600", dot: "bg-gray-500" };
 
   return (
-    <div className="flex flex-col rounded-2xl border bg-card p-5 transition-shadow hover:shadow-md">
-      <span
-        className={cn(
-          "w-fit rounded-full px-2.5 py-0.5 text-xs font-bold",
-          badge.className
-        )}
-      >
-        {badge.label}
-      </span>
-      <p className="mt-3 font-semibold">
-        Batch {batchNumber}
-        {title ? ` · ${title}` : ""}
-      </p>
+    <div
+      className={cn(
+        "flex h-full flex-col rounded-2xl p-5 transition-all duration-200 hover:shadow-md",
+        containerClass
+      )}
+    >
+      <div className="flex items-center justify-between gap-2">
+        <span
+          className={cn(
+            "inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-xs font-bold",
+            badge.className
+          )}
+        >
+          <span className={cn("size-1.5 rounded-full", badge.dot)} />
+          {badge.label}
+        </span>
+        <span className="text-xs font-medium text-muted-foreground">
+          Batch {batchNumber}
+        </span>
+      </div>
+
+      {title ? <p className="mt-3 font-semibold">{title}</p> : null}
+
       <p className="mt-1 inline-flex items-center gap-1.5 text-sm text-muted-foreground">
         <CalendarDays className="size-4" />
         {formatDate(startDate)} – {formatDate(endDate)}
       </p>
+
+      {s === "ACTIVE" ? (
+        <p className="mt-1 inline-flex items-center gap-1.5 text-sm text-muted-foreground">
+          <Users className="size-4" />
+          {enrollments} enrolled
+        </p>
+      ) : s === "COMPLETED" ? (
+        <p className="mt-1 inline-flex items-center gap-1.5 text-sm text-green-600">
+          <CheckCircle2 className="size-4" />
+          Ended
+        </p>
+      ) : null}
 
       <div className="mt-5">
         {admin ? (
@@ -783,23 +955,26 @@ function BatchDetailCard({
             Admins cannot enroll. Log in with a learner account to join this
             batch.
           </div>
-        ) : status === "ACTIVE" ? (
-          <Button className="w-full" onClick={onEnroll} disabled={disabled || pending}>
+        ) : s === "ACTIVE" ? (
+          <Button
+            className="w-full"
+            onClick={onEnroll}
+            disabled={disabled || pending}
+          >
             {pending && <Loader2 className="animate-spin" />}
             {disabled ? "Enrolled" : "Enroll Now"}
           </Button>
-        ) : status === "UPCOMING" ? (
+        ) : s === "UPCOMING" ? (
           <Button
             variant="outline"
             className="w-full"
             disabled
             title="Coming soon"
           >
-            <Bell />
-            Notify Me
+            Coming Soon
           </Button>
         ) : (
-          <Button variant="ghost" className="w-full" disabled>
+          <Button variant="outline" className="w-full" disabled>
             View Only
           </Button>
         )}
