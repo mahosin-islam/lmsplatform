@@ -25,7 +25,7 @@ export function HeroSlider() {
 
             {/* Title */}
             <h1 className="mt-4 text-3xl font-bold leading-tight text-slate-900 sm:text-4xl md:text-5xl lg:text-5xl xl:text-6xl">
-              Speak English
+              Spoken Englishs
               <br />
               With{" "}
               <span className="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
