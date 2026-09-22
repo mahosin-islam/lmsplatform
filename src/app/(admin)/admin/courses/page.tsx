@@ -1,5 +1,4 @@
 "use client";
-
 import * as React from "react";
 import Link from "next/link";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -104,6 +103,7 @@ function CourseCell({ course }: { course: Course }) {
 export default function AdminCoursesPage() {
   const queryClient = useQueryClient();
   const [dialogOpen, setDialogOpen] = React.useState(false);
+  const [editCourse, setEditCourse] = React.useState<Course | null>(null);
   const [tab, setTab] = React.useState<CourseTab>("ALL");
   const [search, setSearch] = React.useState("");
   const [manageCertCourse, setManageCertCourse] = React.useState<Course | null>(
@@ -400,9 +400,14 @@ export default function AdminCoursesPage() {
                             </Link>
                           }
                         />
-                        <DropdownMenuItem disabled>
+                        <DropdownMenuItem
+                          onClick={() => {
+                            setEditCourse(course);
+                            setDialogOpen(true);
+                          }}
+                        >
                           <Pencil className="size-4" />
-                          Edit (coming soon)
+                          Edit
                         </DropdownMenuItem>
                         {course.courseType === "BATCH" ? (
                           <>
@@ -452,7 +457,14 @@ export default function AdminCoursesPage() {
         </Card>
       )}
 
-      <CreateCourseDialog open={dialogOpen} onOpenChange={setDialogOpen} />
+      <CreateCourseDialog
+        open={dialogOpen}
+        onOpenChange={(next) => {
+          setDialogOpen(next);
+          if (!next) setEditCourse(null);
+        }}
+        course={editCourse}
+      />
 
       {manageCertCourse ? (
         <ManageCertificatesDialog

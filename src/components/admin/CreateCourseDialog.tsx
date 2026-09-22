@@ -100,17 +100,33 @@ function slugify(value: string): string {
     .replace(/^-|-$/g, "");
 }
 
+function valuesFromCourse(course: Course): CourseFormValues {
+  return {
+    title: course.title,
+    slug: course.slug,
+    description: course.description,
+    courseType: course.courseType,
+    thumbnail: course.thumbnail ?? "",
+    price: course.price,
+    level: course.level,
+    status: course.status,
+  };
+}
+
 export function CreateCourseDialog({
   open,
   onOpenChange,
+  course = null,
 }: {
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  course?: Course | null;
 }) {
   const { user } = useAuth();
   const router = useRouter();
   const queryClient = useQueryClient();
-  const slugTouchedRef = React.useRef(false);
+  const isEdit = course !== null;
+  const slugTouchedRef = React.useRef(isEdit);
 
   const {
     register,
@@ -122,7 +138,7 @@ export function CreateCourseDialog({
     formState: { errors, isSubmitting },
   } = useForm<CourseFormValues>({
     resolver: zodResolver(courseSchema),
-    defaultValues: DEFAULT_VALUES,
+    defaultValues: course ? valuesFromCourse(course) : DEFAULT_VALUES,
   });
 
   const slugField = register("slug");
@@ -134,18 +150,52 @@ export function CreateCourseDialog({
     }
   }, [titleValue, setValue]);
 
+  React.useEffect(() => {
+    if (open) {
+      reset(course ? valuesFromCourse(course) : DEFAULT_VALUES);
+      slugTouchedRef.current = isEdit;
+    }
+  }, [open, course, isEdit, reset]);
+
   const close = React.useCallback(
     (next: boolean) => {
       if (!next) {
-        reset(DEFAULT_VALUES);
-        slugTouchedRef.current = false;
+        reset(course ? valuesFromCourse(course) : DEFAULT_VALUES);
+        slugTouchedRef.current = isEdit;
       }
       onOpenChange(next);
     },
-    [onOpenChange, reset]
+    [onOpenChange, reset, course, isEdit]
   );
 
   const onSubmit = async (values: CourseFormValues) => {
+    if (isEdit) {
+      try {
+        await apiFetch<Course>(`/courses/${course.id}`, {
+          method: "PATCH",
+          body: {
+            title: values.title.trim(),
+            slug: values.slug.trim(),
+            description: values.description.trim(),
+            thumbnail: values.thumbnail.trim() || null,
+            price: values.price,
+            level: values.level,
+            status: values.status,
+          },
+        });
+
+        toast.success("Course updated successfully");
+        queryClient.invalidateQueries({ queryKey: ["admin"] });
+        queryClient.invalidateQueries({ queryKey: ["courses"] });
+        close(false);
+      } catch (error) {
+        toast.error(
+          error instanceof Error ? error.message : "Could not update course"
+        );
+      }
+      return;
+    }
+
     if (!user) {
       toast.error("You must be signed in to create a course");
       return;
@@ -194,10 +244,13 @@ export function CreateCourseDialog({
     <Dialog open={open} onOpenChange={close}>
       <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-xl">
         <DialogHeader>
-          <DialogTitle>Create a new course</DialogTitle>
+          <DialogTitle>
+            {isEdit ? "Edit course" : "Create a new course"}
+          </DialogTitle>
           <DialogDescription>
-            Fill in the details below. You can add modules and lessons after the
-            course is created.
+            {isEdit
+              ? "Update the course details below. Course type cannot be changed after creation."
+              : "Fill in the details below. You can add modules and lessons after the course is created."}
           </DialogDescription>
         </DialogHeader>
 
@@ -268,7 +321,7 @@ export function CreateCourseDialog({
                 render={({ field }) => (
                   <RadioGroup
                     value={field.value}
-                    onValueChange={field.onChange}
+                    onValueChange={isEdit ? undefined : field.onChange}
                     className="grid gap-3 sm:grid-cols-2"
                   >
                     {COURSE_TYPES.map((type) => (
@@ -278,12 +331,14 @@ export function CreateCourseDialog({
                           "flex cursor-pointer items-start gap-3 rounded-lg border p-3 transition-colors",
                           field.value === type.value
                             ? "border-primary bg-primary/5 ring-1 ring-primary"
-                            : "hover:bg-muted/50"
+                            : "hover:bg-muted/50",
+                          isEdit && "cursor-not-allowed opacity-60"
                         )}
                       >
                         <RadioGroupItem
                           value={type.value}
                           className="mt-0.5"
+                          disabled={isEdit}
                         />
                         <span>
                           <span className="block text-sm font-medium">
@@ -404,12 +459,12 @@ export function CreateCourseDialog({
               {isSubmitting ? (
                 <>
                   <Loader2 className="size-4 animate-spin" />
-                  Creating...
+                  {isEdit ? "Saving..." : "Creating..."}
                 </>
               ) : (
                 <>
                   <Plus className="size-4" />
-                  Create course
+                  {isEdit ? "Save changes" : "Create course"}
                 </>
               )}
             </Button>

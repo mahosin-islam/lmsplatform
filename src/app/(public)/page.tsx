@@ -4,6 +4,7 @@ import { FeaturesSection } from "@/components/landing/FeaturesSection";
 import { TestimonialsSection } from "@/components/landing/TestimonialsSection";
 import { CTASection } from "@/components/landing/CTASection";
 import { Footer } from "@/components/landing/Footer";
+import { AIChatWidget } from "@/components/chat/AIChatWidget";
 
 export default function HomePage() {
   return (
@@ -14,6 +15,7 @@ export default function HomePage() {
       <TestimonialsSection />
       <CTASection />
       <Footer />
+      <AIChatWidget />
     </div>
   );
 }

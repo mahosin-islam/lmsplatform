@@ -1,4 +1,17 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# LMS Platform
+
+```
+[ LMS Platform
+  Overview: Full Stack Learning Management System.
+  ● Role-based portals: Learner, Admin, and public course browsing.
+  ● Searchable course catalog with level/type filters, batches, modules, lessons, quizzes & assignments.
+  ● Secure payment flow (bKash/NAGAD) with order verification and certificate generation.
+  ● Live support sessions, notifications, reviews, and progress tracking.
+  ● AI chat assistant "Mentora" (Gemini-powered) baked into the homepage.
+  Tech Stack: Next.js 15, React 19, TypeScript, Tailwind CSS v4, React Query, shadcn/ui ]
+```
+
+---
 
 ## Getting Started
 
