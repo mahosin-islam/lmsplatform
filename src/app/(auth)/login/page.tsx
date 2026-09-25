@@ -29,6 +29,13 @@ const loginSchema = z.object({
 
 type LoginFormValues = z.infer<typeof loginSchema>;
 
+const DEMO_ACCOUNTS = [
+  { role: "Learner", email: "mahosin@gmail.com" },
+  { role: "Admin", email: "Mahosin@gmail.com" },
+] as const;
+
+const DEMO_PASSWORD = "123456";
+
 function safeRedirect(value: string | null): string | null {
   if (!value) return null;
   const trimmed = value.trim();
@@ -47,11 +54,17 @@ function LoginForm() {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors, isSubmitting },
   } = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
     defaultValues: { email: "", password: "" },
   });
+
+  function fillDemoAccount(email: string) {
+    setValue("email", email, { shouldDirty: true, shouldValidate: true });
+    setValue("password", DEMO_PASSWORD, { shouldDirty: true, shouldValidate: true });
+  }
 
   async function onSubmit(values: LoginFormValues) {
     try {
@@ -63,8 +76,7 @@ function LoginForm() {
         navigatedRef.current = true;
         router.push(redirect);
       } else {
-        router.push("/");
-        // router.push("/learner/dashboard");
+        router.push("/learner/dashboard");
       }
     } catch (error) {
       toast.error(
@@ -147,6 +159,43 @@ function LoginForm() {
               {isSubmitting ? "Signing in..." : "Login"}
             </Button>
           </form>
+
+          <div className="mt-6 space-y-3 rounded-lg border bg-muted/30 p-4">
+            <div>
+              <p className="text-sm font-semibold">Demo accounts</p>
+              <p className="text-xs text-muted-foreground">
+                Select an account to fill its login credentials.
+              </p>
+            </div>
+
+            <div className="grid gap-2">
+              {DEMO_ACCOUNTS.map((account) => (
+                <button
+                  key={account.email}
+                  type="button"
+                  onClick={() => fillDemoAccount(account.email)}
+                  disabled={isSubmitting}
+                  aria-label={`Use ${account.role} demo account`}
+                  className="flex items-center justify-between gap-3 rounded-md border bg-background px-3 py-2 text-left transition-colors hover:bg-accent disabled:cursor-not-allowed disabled:opacity-50"
+                >
+                  <span className="min-w-0">
+                    <span className="block text-sm font-medium">{account.role}</span>
+                    <span className="block break-all text-xs text-muted-foreground">
+                      {account.email}
+                    </span>
+                  </span>
+                  <span className="shrink-0 text-xs font-medium text-primary">
+                    Use account
+                  </span>
+                </button>
+              ))}
+            </div>
+
+            <p className="text-xs text-muted-foreground">
+              Password for both:{" "}
+              <span className="font-medium text-foreground">{DEMO_PASSWORD}</span>
+            </p>
+          </div>
         </CardContent>
         <CardFooter className="flex-col items-center gap-3">
           <p className="text-sm text-muted-foreground">
