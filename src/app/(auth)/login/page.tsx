@@ -30,7 +30,7 @@ const loginSchema = z.object({
 type LoginFormValues = z.infer<typeof loginSchema>;
 
 const DEMO_ACCOUNTS = [
-  { role: "Learner", email: "mahosin@gmail.com" },
+  { role: "Learner", email: "arman@gmail.com" },
   { role: "Admin", email: "Mahosin@gmail.com" },
 ] as const;
 
@@ -61,9 +61,10 @@ function LoginForm() {
     defaultValues: { email: "", password: "" },
   });
 
-  function fillDemoAccount(email: string) {
+  async function demoLogin(email: string) {
     setValue("email", email, { shouldDirty: true, shouldValidate: true });
     setValue("password", DEMO_PASSWORD, { shouldDirty: true, shouldValidate: true });
+    await handleSubmit(onSubmit)();
   }
 
   async function onSubmit(values: LoginFormValues) {
@@ -164,7 +165,7 @@ function LoginForm() {
             <div>
               <p className="text-sm font-semibold">Demo accounts</p>
               <p className="text-xs text-muted-foreground">
-                Select an account to fill its login credentials.
+                Select an account to log in instantly.
               </p>
             </div>
 
@@ -173,9 +174,9 @@ function LoginForm() {
                 <button
                   key={account.email}
                   type="button"
-                  onClick={() => fillDemoAccount(account.email)}
+                  onClick={() => demoLogin(account.email)}
                   disabled={isSubmitting}
-                  aria-label={`Use ${account.role} demo account`}
+                  aria-label={`Log in as ${account.role} demo account`}
                   className="flex items-center justify-between gap-3 rounded-md border bg-background px-3 py-2 text-left transition-colors hover:bg-accent disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   <span className="min-w-0">
@@ -185,7 +186,7 @@ function LoginForm() {
                     </span>
                   </span>
                   <span className="shrink-0 text-xs font-medium text-primary">
-                    Use account
+                    {isSubmitting ? "Logging in..." : "Login now"}
                   </span>
                 </button>
               ))}

@@ -106,7 +106,7 @@ function SidebarNav({
   unreadCount: number;
 }) {
   return (
-    <nav className="flex-1 space-y-1 overflow-y-auto p-3">
+    <nav className="flex-1  space-y-1 overflow-y-auto p-3">
       {NAV_ITEMS.map((item) => {
         const active = isActive(pathname, item.href);
         const Icon = item.icon;
@@ -155,7 +155,7 @@ function SidebarFooter({
 }) {
   const profileActive = isActive(pathname, "/learner/profile");
   return (
-    <div className="border-t border-slate-200 p-3">
+    <div className="border-t  border-slate-200 p-3">
       <div className="flex items-center gap-3 rounded-lg px-2 py-2">
         <Avatar className="size-9">
           {avatar ? <AvatarImage src={avatar} alt={name} /> : null}
