@@ -5,7 +5,7 @@ import { Mail, Phone, MessageCircle, MapPin, Send } from "lucide-react";
 export const metadata: Metadata = {
   title: "Contact Us",
   description:
-    "Get in touch with our team. We're here to help with course enrollment, payments, or any questions you may have.",
+    "Get in touch with our team. We&apos;re here to help with course enrollment, payments, or any questions you may have.",
 };
 
 const contactInfo = [
@@ -48,8 +48,8 @@ export default function ContactPage() {
               Get in Touch
             </h1>
             <p className="mt-4 text-base leading-relaxed text-muted-foreground sm:text-lg">
-              Have questions about courses, enrollment, or payments? We're here
-              to help. Reach out and we'll get back to you as soon as possible.
+              Have questions about courses, enrollment, or payments? We&apos;re here
+              to help. Reach out and we&apos;ll get back to you as soon as possible.
             </p>
           </div>
         </div>
@@ -102,7 +102,7 @@ export default function ContactPage() {
                   Send us a Message
                 </h2>
                 <p className="mt-1 text-sm text-muted-foreground">
-                  Fill out the form below and we'll get back to you shortly
+                  Fill out the form below and we&apos;ll get back to you shortly
                 </p>
                 <form className="mt-6 space-y-5">
                   <div className="grid gap-5 sm:grid-cols-2">
