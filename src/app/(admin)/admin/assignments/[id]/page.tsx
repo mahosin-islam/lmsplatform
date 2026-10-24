@@ -157,7 +157,7 @@ export default function AssignmentDetailPage() {
                 {isPast ? (
                   <Badge className="bg-destructive text-white">Past Deadline</Badge>
                 ) : isDueSoon ? (
-                  <Badge className="bg-amber-100 text-amber-700">Due Soon</Badge>
+                  <Badge className="bg-amber-100 text-amber-700 dark:bg-amber-500/15 dark:text-amber-300">Due Soon</Badge>
                 ) : null}
               </div>
               <p className="mt-1 text-sm text-muted-foreground">
@@ -347,7 +347,7 @@ export default function AssignmentDetailPage() {
                         </TableCell>
                         <TableCell>
                           {submission.status === "GRADED" ? (
-                            <Badge className="bg-emerald-100 text-emerald-700">
+                            <Badge className="bg-emerald-100 text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-300">
                               Graded
                             </Badge>
                           ) : (

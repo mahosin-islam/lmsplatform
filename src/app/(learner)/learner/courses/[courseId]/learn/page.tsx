@@ -76,7 +76,7 @@ function LessonTypeIcon({
   type?: LessonType;
   className?: string;
 }) {
-  if (type === "VIDEO") return <PlayCircle className={cn(className, "text-slate-500")} />;
+  if (type === "VIDEO") return <PlayCircle className={cn(className, "text-muted-foreground")} />;
   if (type === "QUIZ") return <HelpCircle className={cn(className, "text-amber-500")} />;
   return <FileText className={cn(className, "text-blue-500")} />;
 }
@@ -120,7 +120,7 @@ function LockedLessonNotice({
 }: LockedLessonProps) {
   return (
     <div className="flex flex-col items-center gap-4 rounded-2xl border border-dashed bg-muted/30 p-12 text-center">
-      <span className="inline-flex size-14 items-center justify-center rounded-2xl bg-slate-200 text-slate-600">
+      <span className="inline-flex size-14 items-center justify-center rounded-2xl bg-muted text-muted-foreground">
         <Lock className="size-7" />
       </span>
       <div>
@@ -1024,31 +1024,31 @@ function LearnCourseContent() {
 
       {isCourseComplete ? (
         isBatchLocked ? (
-          <div className="flex flex-col items-start gap-3 rounded-2xl bg-gradient-to-r from-amber-400 to-orange-400 p-5 text-white sm:flex-row sm:items-center">
-            <span className="inline-flex size-11 shrink-0 items-center justify-center rounded-xl bg-white/20">
+          <div className="flex flex-col items-start gap-3 rounded-2xl border border-amber-200 bg-amber-50 p-5 dark:border-amber-500/30 dark:bg-amber-500/10 sm:flex-row sm:items-center">
+            <span className="inline-flex size-11 shrink-0 items-center justify-center rounded-xl bg-amber-500/15 text-amber-700 dark:text-amber-300">
               <Hourglass className="size-6" />
             </span>
             <div className="min-w-0 flex-1">
-              <p className="text-base font-semibold">Course Finished!</p>
-              <p className="mt-0.5 text-sm text-white/90">
+              <p className="text-base font-semibold text-amber-900 dark:text-amber-100">Course Finished!</p>
+              <p className="mt-0.5 text-sm text-amber-800/80 dark:text-amber-200/80">
                 Your certificate will be available once the instructor marks
                 this batch as complete. You&apos;ll be notified.
               </p>
             </div>
           </div>
         ) : (
-          <div className="flex flex-col items-start gap-3 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-500 p-5 text-white sm:flex-row sm:items-center">
-            <span className="inline-flex size-11 shrink-0 items-center justify-center rounded-xl bg-white/20">
+          <div className="flex flex-col items-start gap-3 rounded-2xl border border-emerald-200 bg-emerald-50 p-5 dark:border-emerald-500/30 dark:bg-emerald-500/10 sm:flex-row sm:items-center">
+            <span className="inline-flex size-11 shrink-0 items-center justify-center rounded-xl bg-emerald-500/15 text-emerald-700 dark:text-emerald-300">
               <Sparkles className="size-6" />
             </span>
             <div className="min-w-0 flex-1">
-              <p className="text-base font-semibold">Congratulations!</p>
-              <p className="mt-0.5 text-sm text-white/90">
+              <p className="text-base font-semibold text-emerald-900 dark:text-emerald-100">Congratulations!</p>
+              <p className="mt-0.5 text-sm text-emerald-800/80 dark:text-emerald-200/80">
                 You&apos;ve completed this course. Your certificate is ready!
               </p>
             </div>
             <Button
-              className="bg-white text-emerald-700 hover:bg-white/90"
+              className="bg-emerald-600 text-white hover:bg-emerald-700"
               nativeButton={false}
               render={<Link href="/learner/certificates" />}
             >
@@ -1161,7 +1161,7 @@ function LearnCourseContent() {
               {currentFlatLesson.isCompleted ? (
                 <Button
                   variant="secondary"
-                  className="border-emerald-200 bg-emerald-50 text-emerald-700 hover:bg-emerald-50 disabled:opacity-100"
+                  className="border-emerald-200 bg-emerald-50 text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-300 hover:bg-emerald-50 disabled:opacity-100"
                   disabled
                 >
                   <CheckCircle2 className="size-4" />
@@ -1238,8 +1238,8 @@ function CurriculumSidebar({
   }
 
   return (
-    <aside className="space-y-3 rounded-xl bg-slate-50 p-3 lg:sticky lg:top-16 lg:max-h-[calc(100vh-120px)] lg:overflow-y-auto">
-      <p className="px-1 text-xs font-semibold tracking-wide text-slate-500 uppercase">
+    <aside className="space-y-3 rounded-xl bg-background p-3 lg:sticky lg:top-16 lg:max-h-[calc(100vh-120px)] lg:overflow-y-auto">
+      <p className="px-1 text-xs font-semibold tracking-wide text-muted-foreground uppercase">
         Curriculum
       </p>
       {modules.map((module) => {
@@ -1250,12 +1250,12 @@ function CurriculumSidebar({
         return (
           <div
             key={module.id}
-            className="overflow-hidden rounded-lg border bg-white"
+            className="overflow-hidden rounded-lg border border-border bg-card"
           >
             <button
               type="button"
               onClick={() => onToggleModule(module.id)}
-              className="flex w-full items-center justify-between gap-2 px-3 py-2.5 text-left transition-colors hover:bg-slate-50"
+              className="flex w-full items-center justify-between gap-2 px-3 py-2.5 text-left transition-colors hover:bg-background"
             >
               <span className="flex min-w-0 items-center gap-2">
                 <span className="truncate text-sm font-medium">
@@ -1267,7 +1267,7 @@ function CurriculumSidebar({
               </span>
               <ChevronDown
                 className={cn(
-                  "size-4 shrink-0 text-slate-400 transition-transform",
+                  "size-4 shrink-0 text-muted-foreground transition-transform",
                   isOpen && "rotate-180"
                 )}
               />
@@ -1304,14 +1304,14 @@ function CurriculumSidebar({
                       <button
                         type="button"
                         onClick={() => onLessonClick(lessonId)}
-                        className="flex w-full min-w-0 items-center gap-2 px-3 py-2.5 text-left transition-colors hover:bg-slate-50"
+                        className="flex w-full min-w-0 items-center gap-2 px-3 py-2.5 text-left transition-colors hover:bg-background"
                       >
                         {isCompleted ? (
                           <CheckCircle2 className="size-4 shrink-0 text-emerald-500" />
                         ) : isAccessible ? (
                           <PlayCircle className="size-4 shrink-0 text-blue-500" />
                         ) : (
-                          <Lock className="size-4 shrink-0 text-slate-400" />
+                          <Lock className="size-4 shrink-0 text-muted-foreground" />
                         )}
                         <span
                           className={cn(
@@ -1319,8 +1319,8 @@ function CurriculumSidebar({
                             isCurrent
                               ? "font-semibold text-primary"
                               : isAccessible
-                                ? "text-slate-700"
-                                : "text-slate-500"
+                                ? "text-foreground"
+                                : "text-muted-foreground"
                           )}
                         >
                           {lesson.title}
@@ -1328,7 +1328,7 @@ function CurriculumSidebar({
                         {meta.isFree ? (
                           <Badge
                             variant="outline"
-                            className="shrink-0 bg-green-50 text-green-700"
+                            className="shrink-0 bg-green-50 text-green-700 dark:bg-green-500/10 dark:text-green-300"
                           >
                             Free
                           </Badge>
@@ -1338,7 +1338,7 @@ function CurriculumSidebar({
                           className="size-3.5 shrink-0"
                         />
                         {lesson.type === "VIDEO" && meta.duration != null ? (
-                          <span className="inline-flex shrink-0 items-center gap-1 text-xs text-slate-400">
+                          <span className="inline-flex shrink-0 items-center gap-1 text-xs text-muted-foreground">
                             <Clock className="size-3" />
                             {formatDuration(meta.duration)}
                           </span>

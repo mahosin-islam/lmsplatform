@@ -569,7 +569,7 @@ export default function AdminStudentsPage() {
       <div className="grid gap-3 sm:grid-cols-3">
         <Card>
           <CardContent className="flex items-center gap-3 p-4">
-            <span className="inline-flex size-10 items-center justify-center rounded-lg bg-blue-100 text-blue-600">
+            <span className="inline-flex size-10 items-center justify-center rounded-lg bg-blue-100 text-blue-600 dark:bg-blue-500/15 dark:text-blue-300">
               <Users className="size-5" />
             </span>
             <div className="min-w-0">
@@ -580,7 +580,7 @@ export default function AdminStudentsPage() {
         </Card>
         <Card>
           <CardContent className="flex items-center gap-3 p-4">
-            <span className="inline-flex size-10 items-center justify-center rounded-lg bg-emerald-100 text-emerald-600">
+            <span className="inline-flex size-10 items-center justify-center rounded-lg bg-emerald-100 text-emerald-600 dark:bg-emerald-500/15 dark:text-emerald-300">
               <UserCheck className="size-5" />
             </span>
             <div className="min-w-0">
@@ -593,7 +593,7 @@ export default function AdminStudentsPage() {
         </Card>
         <Card>
           <CardContent className="flex items-center gap-3 p-4">
-            <span className="inline-flex size-10 items-center justify-center rounded-lg bg-violet-100 text-violet-600">
+            <span className="inline-flex size-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
               <UserPlus className="size-5" />
             </span>
             <div className="min-w-0">
@@ -720,7 +720,7 @@ export default function AdminStudentsPage() {
                     </CardTitle>
                     <Badge
                       variant="secondary"
-                      className="bg-blue-100 text-blue-700"
+                      className="bg-blue-100 text-blue-700 dark:bg-blue-500/15 dark:text-blue-300"
                     >
                       {courseCountTotal} total
                     </Badge>
@@ -759,7 +759,7 @@ export default function AdminStudentsPage() {
                     {filteredBatchStats.length > 0 ? (
                       <Badge
                         variant="secondary"
-                        className="bg-violet-100 text-violet-700"
+                        className="bg-primary/10 text-primary"
                       >
                         {filteredBatchStats.reduce(
                           (sum, batch) => sum + batch.count,
@@ -808,12 +808,12 @@ export default function AdminStudentsPage() {
                     <TypeStat
                       value={typeBreakdown.free}
                       label="Free"
-                      iconBg="bg-emerald-100 text-emerald-600"
+                      iconBg="bg-emerald-100 text-emerald-600 dark:bg-emerald-500/15 dark:text-emerald-300"
                     />
                     <TypeStat
                       value={typeBreakdown.paid}
                       label="Paid"
-                      iconBg="bg-blue-100 text-blue-600"
+                      iconBg="bg-blue-100 text-blue-600 dark:bg-blue-500/15 dark:text-blue-300"
                     />
                   </div>
                   <Separator />
@@ -821,12 +821,12 @@ export default function AdminStudentsPage() {
                     <TypeStat
                       value={typeBreakdown.fixed}
                       label="Self-Paced"
-                      iconBg="bg-amber-100 text-amber-600"
+                      iconBg="bg-amber-100 text-amber-600 dark:bg-amber-500/15 dark:text-amber-300"
                     />
                     <TypeStat
                       value={typeBreakdown.batched}
                       label="Batched"
-                      iconBg="bg-violet-100 text-violet-600"
+                      iconBg="bg-primary/10 text-primary"
                     />
                   </div>
                   {typeBreakdown.free +
@@ -1031,8 +1031,8 @@ export default function AdminStudentsPage() {
                         variant="secondary"
                         className={cn(
                           enrollments > 0
-                            ? "bg-emerald-100 text-emerald-700"
-                            : "bg-slate-100 text-slate-500"
+                            ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-300"
+                            : "bg-muted text-muted-foreground"
                         )}
                       >
                         {enrollments}

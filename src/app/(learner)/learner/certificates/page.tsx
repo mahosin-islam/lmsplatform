@@ -386,7 +386,7 @@ export default function LearnerCertificatesPage() {
         <TabsContent value="pending" className="mt-4">
           {pendingCerts.length === 0 ? (
             <div className="flex flex-col items-center gap-3 rounded-xl border border-dashed p-12 text-center">
-              <span className="inline-flex size-14 items-center justify-center rounded-full bg-emerald-100 text-emerald-600">
+              <span className="inline-flex size-14 items-center justify-center rounded-full bg-emerald-100 text-emerald-600 dark:bg-emerald-500/15 dark:text-emerald-300">
                 <Trophy className="size-7" />
               </span>
               <div>
@@ -405,7 +405,7 @@ export default function LearnerCertificatesPage() {
                 >
                   <Card className="border-0">
                     <CardContent className="p-5">
-                      <Badge className="bg-emerald-100 text-emerald-700">
+                      <Badge className="bg-emerald-100 text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-300">
                         <Sparkles className="size-3" />
                         Course Complete!
                       </Badge>
@@ -450,7 +450,7 @@ export default function LearnerCertificatesPage() {
         <TabsContent value="waiting" className="mt-4">
           {waitingCerts.length === 0 ? (
             <div className="flex flex-col items-center gap-3 rounded-xl border border-dashed p-12 text-center">
-              <span className="inline-flex size-14 items-center justify-center rounded-full bg-amber-100 text-amber-600">
+              <span className="inline-flex size-14 items-center justify-center rounded-full bg-amber-100 text-amber-600 dark:bg-amber-500/15 dark:text-amber-300">
                 <Hourglass className="size-7" />
               </span>
               <div>
@@ -468,7 +468,7 @@ export default function LearnerCertificatesPage() {
                   key={enrollment.id}
                   className="rounded-xl border border-amber-200 bg-amber-50 p-5"
                 >
-                  <Badge className="bg-amber-100 text-amber-700">
+                  <Badge className="bg-amber-100 text-amber-700 dark:bg-amber-500/15 dark:text-amber-300">
                     <Hourglass className="size-3" />
                     Waiting for Instructor
                   </Badge>

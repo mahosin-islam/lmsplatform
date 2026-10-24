@@ -71,7 +71,7 @@ export function AvatarPicker({
           <div className="flex items-center gap-4">
             <Avatar className="size-16">
               {preview ? <AvatarImage src={preview} alt={name} /> : null}
-              <AvatarFallback className="bg-gradient-to-br from-indigo-500 to-purple-600 text-lg font-semibold text-white">
+              <AvatarFallback className="bg-brand-gradient text-lg font-semibold text-white">
                 {getInitials(name)}
               </AvatarFallback>
             </Avatar>
@@ -101,8 +101,8 @@ export function AvatarPicker({
                     className={cn(
                       "relative overflow-hidden rounded-full ring-2 ring-offset-2 transition-all",
                       isActive
-                        ? "ring-indigo-500"
-                        : "ring-transparent hover:ring-indigo-200"
+                        ? "ring-primary"
+                        : "ring-transparent hover:ring-primary/30"
                     )}
                     aria-label="Select avatar"
                   >

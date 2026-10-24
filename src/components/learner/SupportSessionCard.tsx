@@ -85,8 +85,8 @@ export function SupportSessionCard({
       className={cn(
         "flex flex-col gap-3 rounded-xl border p-5 shadow-sm transition-colors",
         isLive && "border-red-200 bg-gradient-to-br from-red-50 to-rose-50",
-        isUpcoming && "border-amber-200 bg-amber-50/40",
-        isEnded && "border-slate-200 bg-slate-50"
+        isUpcoming && "border-amber-200 bg-amber-50/40 dark:bg-amber-500/10",
+        isEnded && "border-border bg-background"
       )}
     >
       <div className="flex items-center justify-between gap-2">
@@ -105,7 +105,7 @@ export function SupportSessionCard({
         ) : (
           <Badge
             variant="secondary"
-            className="gap-1.5 bg-slate-200 text-slate-600"
+            className="gap-1.5 bg-muted text-muted-foreground"
           >
             <CheckCircle2 className="size-3" />
             Ended
@@ -125,10 +125,10 @@ export function SupportSessionCard({
             className={cn(
               "inline-flex size-8 shrink-0 items-center justify-center rounded-lg",
               isLive
-                ? "bg-red-100 text-red-600"
+                ? "bg-red-100 text-red-600 dark:bg-red-500/15 dark:text-red-300"
                 : isUpcoming
-                  ? "bg-amber-100 text-amber-600"
-                  : "bg-slate-200 text-slate-500"
+                  ? "bg-amber-100 text-amber-600 dark:bg-amber-500/15 dark:text-amber-300"
+                  : "bg-muted text-muted-foreground"
             )}
           >
             <BookOpen className="size-4" />
@@ -152,7 +152,7 @@ export function SupportSessionCard({
           Starts in {formatCountdown(Math.max(startMs - now, 0))}
         </p>
       ) : isEnded ? (
-        <p className="flex items-center gap-1.5 pl-10 text-sm text-slate-500">
+        <p className="flex items-center gap-1.5 pl-10 text-sm text-muted-foreground">
           <CheckCircle2 className="size-3.5" />
           This session has ended
         </p>
@@ -163,7 +163,7 @@ export function SupportSessionCard({
           <Button
             variant="outline"
             disabled
-            className="w-full cursor-not-allowed bg-slate-100 text-muted-foreground"
+            className="w-full cursor-not-allowed bg-muted text-muted-foreground"
           >
             <Video className="size-4" />
             Join Meeting
@@ -175,7 +175,7 @@ export function SupportSessionCard({
             variant="outline"
             disabled
             title={`Available at ${format(startDate, "MMM d, yyyy 'at' h:mm a")}`}
-            className="w-full border-amber-300 bg-white text-amber-700 opacity-100"
+            className="w-full border-amber-300 bg-white text-amber-700 opacity-100 dark:border-amber-500/30 dark:bg-amber-500/10 dark:text-amber-300"
           >
             <Video className="size-4" />
             Join Meeting

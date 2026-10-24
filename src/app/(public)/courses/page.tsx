@@ -16,7 +16,7 @@ import {
 import { cn } from "cn";
 
 import { apiFetch } from "@/lib/api";
-import type { CourseLevel, CourseListData } from "@/types";
+import type { CourseLevel, CourseListData, CourseType } from "@/types";
 import { pickBatch } from "@/lib/course-utils";
 import { CourseCard } from "@/components/course/CourseCard";
 import { BatchCourseCard } from "@/components/course/BatchCourseCard";
@@ -29,9 +29,11 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { SectionHeader } from "@/components/shared/SectionHeader";
 
 const POPULAR_TAGS = ["English", "Spoken", "Grammar", "Writing"];
-const GRID = "grid gap-6 sm:grid-cols-2 lg:grid-cols-3";
+const GRID = "grid gap-5 sm:grid-cols-2 lg:grid-cols-3";
+const PAGE_SIZE = 6;
 
 type SortKey = "newest" | "price-asc" | "price-desc";
 
@@ -48,6 +50,12 @@ const LEVEL_LABELS: Record<"" | CourseLevel, string> = {
   ADVANCED: "Advanced",
 };
 
+const TYPE_LABELS: Record<"" | CourseType, string> = {
+  "": "All Types",
+  FIXED: "Self-Paced",
+  BATCH: "Live Batch",
+};
+
 export default function CoursesPage() {
   return (
     <Suspense fallback={<CoursesSkeleton />}>
@@ -61,10 +69,26 @@ function CoursesContent() {
   const searchParams = useSearchParams();
 
   const search = searchParams.get("search") ?? "";
-  const level = (searchParams.get("level") ?? "") as "" | CourseLevel;
-  const sort = (searchParams.get("sort") as SortKey | null) ?? "newest";
-  const courseType =
-    searchParams.get("courseType") ?? searchParams.get("type") ?? "";
+
+  const levelParam = searchParams.get("level");
+  const level: "" | CourseLevel =
+    levelParam === "BEGINNER" ||
+    levelParam === "INTERMEDIATE" ||
+    levelParam === "ADVANCED"
+      ? levelParam
+      : "";
+
+  const sortParam = searchParams.get("sort");
+  const sort: SortKey =
+    sortParam === "price-asc" || sortParam === "price-desc"
+      ? sortParam
+      : "newest";
+
+  const typeParam = searchParams.get("courseType") ?? searchParams.get("type");
+  const courseType: "" | CourseType =
+    typeParam === "FIXED" || typeParam === "BATCH" ? typeParam : "";
+
+  const freeOnly = searchParams.get("price") === "free";
 
   const [searchInput, setSearchInput] = useState(search);
 
@@ -97,13 +121,14 @@ function CoursesContent() {
     return allCourses.filter((course) => {
       if (level && course.level !== level) return false;
       if (courseType && course.courseType !== courseType) return false;
+      if (freeOnly && course.price !== 0) return false;
       if (q) {
         const haystack = `${course.title} ${course.description}`.toLowerCase();
         if (!haystack.includes(q)) return false;
       }
       return true;
     });
-  }, [allCourses, search, level, courseType]);
+  }, [allCourses, search, level, courseType, freeOnly]);
 
   const sorted = useMemo(() => {
     const list = [...searched];
@@ -126,6 +151,8 @@ function CoursesContent() {
     () =>
       sorted
         .filter((c) => c.courseType === "BATCH")
+        // A finished batch must never be marketed as "upcoming".
+        .filter((c) => pickBatch(c).kind !== "completed")
         .sort((a, b) => {
           const aDate = pickBatch(a).batch?.startDate;
           const bDate = pickBatch(b).batch?.startDate;
@@ -155,86 +182,102 @@ function CoursesContent() {
 
   const handleTag = (tag: string) => {
     setSearchInput(tag);
-    updateParams({ search: tag });
+    updateParams({ search: tag, courseType: null });
   };
 
-  const hasActiveFilters = Boolean(search || level || courseType || sort !== "newest");
+  const hasActiveFilters = Boolean(
+    search || level || courseType || freeOnly || sort !== "newest"
+  );
+
+  const showFixedSection = courseType !== "BATCH";
+  const showBatchSection = courseType !== "FIXED";
+  const fixedList =
+    courseType === "FIXED" ? fixedCourses : fixedCourses.slice(0, PAGE_SIZE);
+  const batchList =
+    courseType === "BATCH" ? batchCourses : batchCourses.slice(0, PAGE_SIZE);
 
   return (
-    <div className="pb-20">
-      {/* SECTION 1: HERO */}
-      <section className=" relative overflow-hidden bg-gradient-to-br from-indigo-600 via-purple-600 to-purple-700">
+    <div className="pb-16">
+      {/* ─── HERO ─── */}
+      <section className="relative overflow-hidden border-b border-border bg-gradient-to-b from-primary/[0.07] via-background to-background">
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-0 opacity-10"
-          style={{
-            backgroundImage: "radial-gradient(circle, white 1px, transparent 1px)",
-            backgroundSize: "24px 24px",
-          }}
+          className="pointer-events-none absolute -top-24 -left-24 size-72 rounded-full bg-primary/10 blur-3xl"
         />
-        <div className="relative mx-auto max-w-3xl px-4 py-16 text-center sm:px-6 md:py-24">
-          <h1 className="text-4xl font-bold tracking-tight text-white md:text-5xl lg:text-6xl">
-            Learn Without Limits
-          </h1>
-          <p className="mx-auto mt-4 max-w-xl text-lg text-white/80 md:text-xl">
-            Explore self-paced courses or join live batches
-          </p>
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute -top-10 right-0 size-64 rounded-full bg-brand-teal/10 blur-3xl"
+        />
 
-          <form
-            onSubmit={handleSearch}
-            className="mx-auto mt-8 flex max-w-xl items-center gap-2 rounded-full bg-white p-1.5 shadow-xl shadow-purple-900/20"
-          >
-            <span className="pl-3 text-muted-foreground">
-              <Search className="size-5" />
+        <div className="relative mx-auto max-w-7xl px-4 py-14 sm:px-6 md:py-20 lg:px-8">
+          <div className="mx-auto max-w-2xl text-center">
+            <span className="inline-flex items-center gap-2 rounded-full border border-brand-teal/25 bg-brand-teal/10 px-3 py-1 text-xs font-semibold text-brand-teal-strong">
+              <GraduationCap className="size-3.5" />
+              Self-paced courses &amp; live batches
             </span>
-            <input
-              value={searchInput}
-              onChange={(event) => setSearchInput(event.target.value)}
-              placeholder="Search for courses..."
-              className="h-10 w-full min-w-0 bg-transparent text-sm text-foreground outline-none placeholder:text-muted-foreground"
-              aria-label="Search courses"
-            />
-            <button
-              type="submit"
-              className="h-10 shrink-0 rounded-full bg-primary px-5 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90"
+
+            <h1 className="mt-5 text-3xl font-bold tracking-tight text-foreground sm:text-4xl lg:text-5xl">
+              Master English on your own terms
+            </h1>
+            <p className="mx-auto mt-3 max-w-xl text-base leading-relaxed text-muted-foreground">
+              Pick a self-paced course or join a scheduled batch with live
+              support sessions, assignments and a verified certificate.
+            </p>
+
+            <form
+              onSubmit={handleSearch}
+              className="mx-auto mt-8 flex max-w-xl items-center gap-2 rounded-xl border border-border bg-card p-1.5 shadow-sm transition-shadow focus-within:border-primary/50 focus-within:shadow-md focus-within:ring-4 focus-within:ring-primary/10"
             >
-              Search
-            </button>
-          </form>
-
-          <div className="mt-5 flex flex-wrap items-center justify-center gap-2">
-            {POPULAR_TAGS.map((tag) => (
+              <span className="pl-3 text-muted-foreground">
+                <Search className="size-5" />
+              </span>
+              <input
+                value={searchInput}
+                onChange={(event) => setSearchInput(event.target.value)}
+                placeholder="Search for courses..."
+                aria-label="Search courses"
+                className="h-11 w-full min-w-0 bg-transparent text-sm text-foreground outline-none placeholder:text-muted-foreground"
+              />
               <button
-                key={tag}
-                type="button"
-                onClick={() => handleTag(tag)}
-                className="rounded-full border border-white/30 bg-white/10 px-3 py-1 text-sm text-white/90 backdrop-blur-sm transition-colors hover:bg-white/20"
+                type="submit"
+                className="h-11 shrink-0 rounded-lg bg-primary px-5 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90"
               >
-                {tag}
+                Search
               </button>
-            ))}
-          </div>
-        </div>
-      </section>
+            </form>
 
-      {/* SECTION 2: STATS */}
-      <section className="mx-auto mt-5 max-w-5xl px-4 sm:px-6">
-        <div className="grid grid-cols-3 gap-3 rounded-2xl border bg-card p-4 shadow-sm sm:gap-6 sm:p-6">
-          <StatCard
-            icon={<BookOpen className="size-5" />}
-            value={stats.courses}
-            label="Courses"
-          />
-          <StatCard
-            icon={<Users className="size-5" />}
-            value={stats.students}
-            label="Students"
-          />
-          <StatCard
-            icon={<GraduationCap className="size-5" />}
-            value={stats.reviews}
-            label="Reviews"
-          />
+            <div className="mt-5 flex flex-wrap items-center justify-center gap-2">
+              {POPULAR_TAGS.map((tag) => (
+                <button
+                  key={tag}
+                  type="button"
+                  onClick={() => handleTag(tag)}
+                  className="rounded-full border border-border bg-card px-3 py-1 text-sm text-muted-foreground transition-colors hover:border-primary/40 hover:bg-primary/5 hover:text-foreground"
+                >
+                  {tag}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Stats strip */}
+          <dl className="mx-auto mt-12 grid max-w-3xl grid-cols-3 divide-x divide-border rounded-xl border border-border bg-card px-2 py-5 shadow-sm">
+            <StatItem
+              icon={<BookOpen className="size-4" />}
+              value={stats.courses}
+              label="Courses"
+            />
+            <StatItem
+              icon={<Users className="size-4" />}
+              value={stats.students}
+              label="Learners"
+            />
+            <StatItem
+              icon={<GraduationCap className="size-4" />}
+              value={stats.reviews}
+              label="Reviews"
+            />
+          </dl>
         </div>
       </section>
 
@@ -258,8 +301,8 @@ function CoursesContent() {
         </div>
       ) : (
         <>
-          {/* SECTION 5: STICKY FILTERS */}
-          <div className="sticky top-16 z-30 mt-10 border-y bg-background/80 backdrop-blur-md">
+          {/* ─── STICKY FILTERS ─── */}
+          <div className="sticky top-16 z-30 border-b border-border bg-background/85 backdrop-blur-md">
             <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3 px-4 py-3 sm:px-6 lg:px-8">
               <p className="text-sm text-muted-foreground">
                 <span className="font-semibold text-foreground">
@@ -268,6 +311,18 @@ function CoursesContent() {
                 course{sorted.length === 1 ? "" : "s"} found
               </p>
               <div className="flex items-center gap-2">
+                <FilterDropdown
+                  label={TYPE_LABELS[courseType]}
+                  heading="Course type"
+                  value={courseType}
+                  active={Boolean(courseType)}
+                  options={[
+                    { value: "", label: "All Types" },
+                    { value: "FIXED", label: "Self-Paced" },
+                    { value: "BATCH", label: "Live Batch" },
+                  ]}
+                  onSelect={(value) => updateParams({ courseType: value || null })}
+                />
                 <FilterDropdown
                   label={LEVEL_LABELS[level]}
                   heading="Level"
@@ -309,82 +364,98 @@ function CoursesContent() {
             </div>
           </div>
 
-          {/* SECTION 3: SELF-PACED */}
-          <section className="mx-auto max-w-7xl px-4 pt-12 sm:px-6 lg:px-8">
-            <SectionHeader
-              icon={<BookOpen className="size-5" />}
-              title="Self-Paced Courses"
-              description="Learn at your own pace, anytime, anywhere"
-              action={
-                fixedCourses.length > 6 ? (
-                  <Link
-                    href="/courses?courseType=FIXED"
-                    className="text-sm font-medium text-primary hover:underline"
-                  >
-                    View all →
-                  </Link>
-                ) : null
-              }
-            />
-            {isLoading ? (
-              <SkeletonGrid />
-            ) : fixedCourses.length === 0 ? (
-              <EmptyState
-                icon={<BookOpen className="size-7" />}
-                title="No self-paced courses yet"
-                subtitle="Check back soon!"
-              />
-            ) : (
-              <div className={GRID}>
-                {fixedCourses.slice(0, 6).map((course) => (
-                  <CourseCard key={course.id} course={course} />
-                ))}
-              </div>
-            )}
-          </section>
-
-          {/* SECTION 4: UPCOMING BATCHES */}
-          <section className="mt-16 bg-gradient-to-b from-amber-50/70 to-transparent py-12 dark:from-amber-950/10">
-            <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          {/* ─── SELF-PACED ─── */}
+          {showFixedSection && (
+            <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
               <SectionHeader
-                icon={<GraduationCap className="size-5" />}
-                title="Upcoming Batches"
-                description="Join a live cohort, learn with peers"
-                action={
-                  batchCourses.length > 6 ? (
-                    <Link
-                      href="/courses?courseType=BATCH"
-                      className="text-sm font-medium text-primary hover:underline"
-                    >
-                      View all →
-                    </Link>
-                  ) : null
-                }
+                icon={BookOpen}
+                eyebrow="Self-paced"
+                title="Learn at your own pace"
+                description="Start instantly and keep access for life — no fixed schedule required."
               />
-              {isLoading ? (
-                <SkeletonGrid />
-              ) : batchCourses.length === 0 ? (
-                <EmptyState
-                  icon={<Calendar className="size-7" />}
-                  title="No batches scheduled"
-                  subtitle="New batches will be announced soon"
+
+              <div className="mt-8">
+                {isLoading ? (
+                  <SkeletonGrid />
+                ) : fixedList.length === 0 ? (
+                  <EmptyState
+                    icon={<BookOpen className="size-7" />}
+                    title="No self-paced courses yet"
+                    subtitle="Check back soon!"
+                  />
+                ) : (
+                  <>
+                    <div className={GRID}>
+                      {fixedList.map((course) => (
+                        <CourseCard key={course.id} course={course} />
+                      ))}
+                    </div>
+                    {fixedCourses.length > PAGE_SIZE && !courseType ? (
+                      <div className="mt-8 text-center">
+                        <Link
+                          href="/courses?courseType=FIXED"
+                          className="text-sm font-medium text-primary hover:underline"
+                        >
+                          View all {fixedCourses.length} self-paced courses →
+                        </Link>
+                      </div>
+                    ) : null}
+                  </>
+                )}
+              </div>
+            </section>
+          )}
+
+          {/* ─── UPCOMING BATCHES ─── */}
+          {showBatchSection && (
+            <section className="border-t border-border bg-muted/40">
+              <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+                <SectionHeader
+                  icon={Calendar}
+                  eyebrow="Live cohorts"
+                  title="Upcoming batches"
+                  description="Join a scheduled cohort with live classes and peer support."
                 />
-              ) : (
-                <div className=" grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                  {batchCourses.slice(0, 6).map((course) => (
-                    <BatchCourseCard key={course.id} course={course} />
-                  ))}
+
+                <div className="mt-8">
+                  {isLoading ? (
+                    <SkeletonGrid />
+                  ) : batchList.length === 0 ? (
+                    <EmptyState
+                      icon={<Calendar className="size-7" />}
+                      title="No batches scheduled"
+                      subtitle="New batches will be announced soon"
+                    />
+                  ) : (
+                    <>
+                      <div className={GRID}>
+                        {batchList.map((course) => (
+                          <BatchCourseCard key={course.id} course={course} />
+                        ))}
+                      </div>
+                      {batchCourses.length > PAGE_SIZE && !courseType ? (
+                        <div className="mt-8 text-center">
+                          <Link
+                            href="/courses?courseType=BATCH"
+                            className="text-sm font-medium text-primary hover:underline"
+                          >
+                            View all {batchCourses.length} live batches →
+                          </Link>
+                        </div>
+                      ) : null}
+                    </>
+                  )}
                 </div>
-              )}
-            </div>
-          </section>
+              </div>
+            </section>
+          )}
         </>
       )}
     </div>
   );
 }
 
-function StatCard({
+function StatItem({
   icon,
   value,
   label,
@@ -394,41 +465,12 @@ function StatCard({
   label: string;
 }) {
   return (
-    <div className="flex flex-col items-center gap-1 text-center sm:flex-row sm:gap-3 sm:text-left">
-      <span className="inline-flex size-9 items-center justify-center rounded-xl bg-primary/10 text-primary">
+    <div className="flex flex-col items-center gap-1 text-center">
+      <span className="inline-flex size-8 items-center justify-center rounded-lg bg-primary/10 text-primary">
         {icon}
       </span>
-      <div>
-        <p className="text-xl font-bold sm:text-2xl">{value}</p>
-        <p className="text-xs text-muted-foreground sm:text-sm">{label}</p>
-      </div>
-    </div>
-  );
-}
-
-function SectionHeader({
-  icon,
-  title,
-  description,
-  action,
-}: {
-  icon: React.ReactNode;
-  title: string;
-  description: string;
-  action?: React.ReactNode;
-}) {
-  return (
-    <div className="mb-6 flex items-end justify-between gap-4">
-      <div>
-        <h2 className="flex items-center gap-2 text-xl font-bold sm:text-2xl">
-          <span className="inline-flex size-9 items-center justify-center rounded-xl bg-primary/10 text-primary">
-            {icon}
-          </span>
-          {title}
-        </h2>
-        <p className="mt-1 text-sm text-muted-foreground">{description}</p>
-      </div>
-      {action}
+      <p className="text-xl font-bold tabular-nums sm:text-2xl">{value}</p>
+      <p className="text-xs text-muted-foreground sm:text-sm">{label}</p>
     </div>
   );
 }
@@ -452,11 +494,14 @@ function FilterDropdown({
     <DropdownMenu>
       <DropdownMenuTrigger
         render={
-          <Button variant="outline" className={cn(active && "border-primary")}>
-            {label}
-          </Button>
+          <Button
+            variant="outline"
+            className={cn(active && "border-primary text-foreground")}
+          />
         }
-      />
+      >
+        {label}
+      </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-48">
         <DropdownMenuLabel>{heading}</DropdownMenuLabel>
         <DropdownMenuSeparator />
@@ -487,7 +532,7 @@ function EmptyState({
   subtitle: string;
 }) {
   return (
-    <div className="flex flex-col items-center gap-3 rounded-2xl border border-dashed bg-muted/30 p-12 text-center">
+    <div className="flex flex-col items-center gap-3 rounded-2xl border border-dashed bg-card p-12 text-center">
       <span className="inline-flex size-14 items-center justify-center rounded-full bg-primary/10 text-primary">
         {icon}
       </span>
@@ -505,9 +550,9 @@ function SkeletonGrid() {
       {Array.from({ length: 6 }).map((_, index) => (
         <div
           key={index}
-          className="overflow-hidden rounded-2xl border bg-card"
+          className="overflow-hidden rounded-2xl border border-border bg-card"
         >
-          <div className="aspect-video w-full animate-pulse bg-muted" />
+          <div className="aspect-[16/9] w-full animate-pulse bg-muted" />
           <div className="space-y-3 p-5">
             <div className="h-5 w-20 animate-pulse rounded-full bg-muted" />
             <div className="h-5 w-4/5 animate-pulse rounded bg-muted" />
@@ -522,15 +567,18 @@ function SkeletonGrid() {
 
 function CoursesSkeleton() {
   return (
-    <div className="pb-20">
-      <section className="bg-gradient-to-br from-indigo-600 via-purple-600 to-purple-700 py-16 md:py-24">
-        <div className="mx-auto max-w-3xl px-4 text-center sm:px-6">
-          <div className="mx-auto h-12 w-3/4 animate-pulse rounded-lg bg-white/20" />
-          <div className="mx-auto mt-4 h-6 w-1/2 animate-pulse rounded bg-white/20" />
-          <div className="mx-auto mt-8 h-12 w-full max-w-xl animate-pulse rounded-full bg-white/20" />
+    <div className="pb-16">
+      <section className="border-b border-border bg-gradient-to-b from-primary/[0.07] via-background to-background">
+        <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 md:py-20 lg:px-8">
+          <div className="mx-auto max-w-2xl">
+            <div className="mx-auto h-7 w-56 animate-pulse rounded-full bg-muted" />
+            <div className="mx-auto mt-5 h-11 w-3/4 animate-pulse rounded-lg bg-muted" />
+            <div className="mx-auto mt-4 h-5 w-1/2 animate-pulse rounded bg-muted" />
+            <div className="mx-auto mt-8 h-13 w-full max-w-xl animate-pulse rounded-xl bg-muted" />
+          </div>
         </div>
       </section>
-      <div className="mx-auto max-w-7xl px-4 pt-12 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
         <SkeletonGrid />
       </div>
     </div>

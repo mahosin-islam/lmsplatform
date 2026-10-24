@@ -82,9 +82,9 @@ function StatCard({
 }
 
 function deadlineBadgeClass(color: "red" | "amber" | "gray"): string {
-  if (color === "red") return "bg-red-100 text-red-700";
-  if (color === "amber") return "bg-amber-100 text-amber-700";
-  return "bg-slate-100 text-slate-500";
+  if (color === "red") return "bg-red-100 text-red-700 dark:bg-red-500/15 dark:text-red-300";
+  if (color === "amber") return "bg-amber-100 text-amber-700 dark:bg-amber-500/15 dark:text-amber-300";
+  return "bg-muted text-muted-foreground";
 }
 
 const PENDING_EMPTY = "You're all caught up! No pending assignments right now.";
@@ -307,7 +307,7 @@ export default function LearnerAssignmentsPage() {
             icon={ClipboardList}
             value={String(allAssignments.length)}
             label="Total"
-            iconBg="bg-indigo-500"
+            iconBg="bg-primary/100"
           />
           <StatCard
             icon={Clock}
@@ -331,7 +331,7 @@ export default function LearnerAssignmentsPage() {
             {pending.length > 0 ? (
               <Badge
                 variant="secondary"
-                className="bg-amber-100 text-amber-700"
+                className="bg-amber-100 text-amber-700 dark:bg-amber-500/15 dark:text-amber-300"
               >
                 {pending.length}
               </Badge>
@@ -342,7 +342,7 @@ export default function LearnerAssignmentsPage() {
             {submitted.length > 0 ? (
               <Badge
                 variant="secondary"
-                className="bg-slate-100 text-slate-500"
+                className="bg-muted text-muted-foreground"
               >
                 {submitted.length}
               </Badge>
@@ -353,7 +353,7 @@ export default function LearnerAssignmentsPage() {
             {graded.length > 0 ? (
               <Badge
                 variant="secondary"
-                className="bg-emerald-100 text-emerald-700"
+                className="bg-emerald-100 text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-300"
               >
                 {graded.length}
               </Badge>
@@ -365,7 +365,7 @@ export default function LearnerAssignmentsPage() {
           <div className="space-y-4">
             {pending.length === 0 ? (
               <div className="flex flex-col items-center gap-3 rounded-xl border border-dashed p-12 text-center">
-                <span className="inline-flex size-14 items-center justify-center rounded-full bg-indigo-100 text-indigo-500">
+                <span className="inline-flex size-14 items-center justify-center rounded-full bg-primary/10 text-primary">
                   <ClipboardList className="size-7" />
                 </span>
                 <div>
@@ -385,7 +385,7 @@ export default function LearnerAssignmentsPage() {
                     <CardContent className="p-5">
                       <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
                         <div className="flex min-w-0 items-start gap-3">
-                          <span className="mt-0.5 inline-flex size-10 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600 text-white">
+                          <span className="mt-0.5 inline-flex size-10 shrink-0 items-center justify-center rounded-lg bg-brand-gradient text-white">
                             <FileText className="size-5" />
                           </span>
                           <div className="min-w-0 space-y-1">
@@ -452,7 +452,7 @@ export default function LearnerAssignmentsPage() {
           <div className="space-y-4">
             {submitted.length === 0 ? (
               <div className="flex flex-col items-center gap-3 rounded-xl border border-dashed p-12 text-center">
-                <span className="inline-flex size-14 items-center justify-center rounded-full bg-slate-100 text-slate-400">
+                <span className="inline-flex size-14 items-center justify-center rounded-full bg-muted text-muted-foreground">
                   <Clock className="size-7" />
                 </span>
                 <div>
@@ -468,7 +468,7 @@ export default function LearnerAssignmentsPage() {
                   <CardContent className="p-5">
                     <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                       <div className="flex min-w-0 items-start gap-3">
-                        <span className="mt-0.5 inline-flex size-10 shrink-0 items-center justify-center rounded-lg bg-amber-100 text-amber-600">
+                        <span className="mt-0.5 inline-flex size-10 shrink-0 items-center justify-center rounded-lg bg-amber-100 text-amber-600 dark:bg-amber-500/15 dark:text-amber-300">
                           <Clock className="size-5" />
                         </span>
                         <div className="min-w-0 space-y-1">
@@ -481,7 +481,7 @@ export default function LearnerAssignmentsPage() {
                           <div className="flex flex-wrap items-center gap-2">
                             <Badge
                               variant="secondary"
-                              className="bg-amber-100 text-amber-700"
+                              className="bg-amber-100 text-amber-700 dark:bg-amber-500/15 dark:text-amber-300"
                             >
                               Waiting for grade
                             </Badge>
@@ -515,7 +515,7 @@ export default function LearnerAssignmentsPage() {
           <div className="space-y-4">
             {graded.length === 0 ? (
               <div className="flex flex-col items-center gap-3 rounded-xl border border-dashed p-12 text-center">
-                <span className="inline-flex size-14 items-center justify-center rounded-full bg-emerald-100 text-emerald-600">
+                <span className="inline-flex size-14 items-center justify-center rounded-full bg-emerald-100 text-emerald-600 dark:bg-emerald-500/15 dark:text-emerald-300">
                   <Award className="size-7" />
                 </span>
                 <div>
@@ -537,7 +537,7 @@ export default function LearnerAssignmentsPage() {
                     <CardContent className="p-5">
                       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                         <div className="flex min-w-0 items-start gap-3">
-                          <span className="mt-0.5 inline-flex size-10 shrink-0 items-center justify-center rounded-lg bg-emerald-100 text-emerald-600">
+                          <span className="mt-0.5 inline-flex size-10 shrink-0 items-center justify-center rounded-lg bg-emerald-100 text-emerald-600 dark:bg-emerald-500/15 dark:text-emerald-300">
                             <Award className="size-5" />
                           </span>
                           <div className="min-w-0 space-y-1">
@@ -630,7 +630,7 @@ export default function LearnerAssignmentsPage() {
                   href={viewingDetails.docUrl}
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-flex items-center gap-1.5 text-sm font-medium text-indigo-600 hover:underline"
+                  className="inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:underline"
                 >
                   Open instructions <ExternalLink className="size-3.5" />
                 </a>

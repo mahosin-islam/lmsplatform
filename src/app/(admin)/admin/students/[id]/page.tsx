@@ -64,10 +64,10 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
 
 const ENROLLMENT_BADGE: Record<EnrollmentStatus, string> = {
-  PENDING: "bg-amber-100 text-amber-700",
-  ACTIVE: "bg-emerald-100 text-emerald-700",
-  COMPLETED: "bg-blue-100 text-blue-700",
-  CANCELLED: "bg-slate-200 text-slate-600",
+  PENDING: "bg-amber-100 text-amber-700 dark:bg-amber-500/15 dark:text-amber-300",
+  ACTIVE: "bg-emerald-100 text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-300",
+  COMPLETED: "bg-blue-100 text-blue-700 dark:bg-blue-500/15 dark:text-blue-300",
+  CANCELLED: "bg-muted text-muted-foreground",
 };
 
 function getUserInitials(name: string): string {
@@ -250,25 +250,25 @@ export default function AdminStudentDetailPage() {
       label: "Total Enrollments",
       value: summary?.enrollments.total ?? 0,
       icon: GraduationCap,
-      tint: "bg-blue-100 text-blue-600",
+      tint: "bg-blue-100 text-blue-600 dark:bg-blue-500/15 dark:text-blue-300",
     },
     {
       label: "Active Enrollments",
       value: summary?.enrollments.active ?? 0,
       icon: CheckCircle2,
-      tint: "bg-emerald-100 text-emerald-600",
+      tint: "bg-emerald-100 text-emerald-600 dark:bg-emerald-500/15 dark:text-emerald-300",
     },
     {
       label: "Certificates",
       value: summary?.certificates ?? 0,
       icon: Award,
-      tint: "bg-violet-100 text-violet-600",
+      tint: "bg-primary/10 text-primary",
     },
     {
       label: "Avg Progress",
       value: avgProgress === null ? "\u2014" : `${avgProgress}%`,
       icon: BarChart3,
-      tint: "bg-amber-100 text-amber-600",
+      tint: "bg-amber-100 text-amber-600 dark:bg-amber-500/15 dark:text-amber-300",
     },
   ];
 
@@ -303,7 +303,7 @@ export default function AdminStudentDetailPage() {
                 </h1>
                 <Badge
                   variant="secondary"
-                  className="bg-blue-100 text-blue-700"
+                  className="bg-blue-100 text-blue-700 dark:bg-blue-500/15 dark:text-blue-300"
                 >
                   LEARNER
                 </Badge>
@@ -419,7 +419,7 @@ export default function AdminStudentDetailPage() {
                         {enrollment.batch ? (
                           <Badge
                             variant="secondary"
-                            className="bg-violet-100 text-violet-700"
+                            className="bg-primary/10 text-primary"
                           >
                             <Boxes className="size-3" />
                             Batch {enrollment.batch.batchNumber}
@@ -613,7 +613,7 @@ export default function AdminStudentDetailPage() {
                       submission.assignment?.totalMarks ? (
                         <Badge
                           variant="secondary"
-                          className="bg-emerald-100 text-emerald-700"
+                          className="bg-emerald-100 text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-300"
                         >
                           {submission.marks}/{submission.assignment.totalMarks}
                         </Badge>
@@ -622,10 +622,10 @@ export default function AdminStudentDetailPage() {
                         variant="secondary"
                         className={
                           submission.status === "GRADED"
-                            ? "bg-emerald-100 text-emerald-700"
+                            ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-300"
                             : submission.status === "SUBMITTED"
-                              ? "bg-blue-100 text-blue-700"
-                              : "bg-amber-100 text-amber-700"
+                              ? "bg-blue-100 text-blue-700 dark:bg-blue-500/15 dark:text-blue-300"
+                              : "bg-amber-100 text-amber-700 dark:bg-amber-500/15 dark:text-amber-300"
                         }
                       >
                         {submission.status}

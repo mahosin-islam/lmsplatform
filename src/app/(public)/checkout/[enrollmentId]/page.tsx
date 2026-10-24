@@ -249,7 +249,7 @@ export default function CheckoutPage() {
     return (
       <div className="mx-auto max-w-3xl px-4 py-10 sm:px-6">
         <div className="flex flex-col items-center gap-4 rounded-2xl border border-dashed p-12 text-center">
-          <span className="inline-flex size-12 items-center justify-center rounded-full bg-red-100 text-red-600">
+          <span className="inline-flex size-12 items-center justify-center rounded-full bg-red-100 text-red-600 dark:bg-red-500/15 dark:text-red-300">
             <AlertCircle className="size-6" />
           </span>
           <div>
@@ -319,7 +319,7 @@ export default function CheckoutPage() {
                   className="size-20 shrink-0 rounded-xl border object-cover"
                 />
               ) : (
-                <span className="inline-flex size-20 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 text-white">
+                <span className="inline-flex size-20 shrink-0 items-center justify-center rounded-xl bg-brand-gradient text-white">
                   <CreditCard className="size-8" />
                 </span>
               )}
@@ -339,7 +339,7 @@ export default function CheckoutPage() {
                 {course?.level ? (
                   <Badge
                     variant="secondary"
-                    className="mt-1.5 bg-slate-100 text-slate-700"
+                    className="mt-1.5 bg-muted text-foreground"
                   >
                     {course.level}
                   </Badge>
@@ -378,7 +378,7 @@ export default function CheckoutPage() {
                     className="flex items-center justify-between gap-3 rounded-xl border bg-card p-3"
                   >
                     <div className="flex items-center gap-3">
-                      <span className="inline-flex size-9 items-center justify-center rounded-lg bg-rose-100 text-rose-600">
+                      <span className="inline-flex size-9 items-center justify-center rounded-lg bg-rose-100 text-rose-600 dark:bg-rose-500/15 dark:text-rose-300">
                         <Smartphone className="size-4" />
                       </span>
                       <div>

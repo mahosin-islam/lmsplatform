@@ -77,12 +77,12 @@ const STATUS_META: Record<
   UPCOMING: {
     label: "Upcoming",
     strip: "bg-amber-400",
-    badge: "bg-amber-100 text-amber-700",
+    badge: "bg-amber-100 text-amber-700 dark:bg-amber-500/15 dark:text-amber-300",
   },
   ENDED: {
     label: "Ended",
-    strip: "bg-gray-300",
-    badge: "bg-gray-100 text-gray-500",
+    strip: "bg-muted-foreground/30",
+    badge: "bg-muted text-muted-foreground",
   },
 };
 

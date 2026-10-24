@@ -149,7 +149,7 @@ export default function SupportSessionsPage() {
         </div>
       ) : sessionsQuery.isError || !sessionsQuery.data ? (
         <div className="rounded-xl border border-dashed p-12 text-center">
-          <Loader2 className="mx-auto size-10 animate-spin text-indigo-400" />
+          <Loader2 className="mx-auto size-10 animate-spin text-primary" />
           <p className="mt-3 font-medium">Couldn&apos;t load your sessions</p>
           <p className="mt-1 text-sm text-muted-foreground">
             {sessionsQuery.error instanceof Error
@@ -159,7 +159,7 @@ export default function SupportSessionsPage() {
           <button
             type="button"
             onClick={() => sessionsQuery.refetch()}
-            className="mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-indigo-600 hover:underline"
+            className="mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:underline"
           >
             <RefreshCcw className="size-4" />
             Try again

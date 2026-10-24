@@ -55,10 +55,10 @@ export default function VerifyCertificatePage({
   const result = verifyQuery.data;
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center bg-slate-50 px-4 py-16">
+    <main className="flex min-h-screen flex-col items-center justify-center bg-background px-4 py-16">
       <div className="w-full max-w-lg">
         <div className="mb-8 text-center">
-          <span className="inline-flex size-12 items-center justify-center rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 text-white">
+          <span className="inline-flex size-12 items-center justify-center rounded-2xl bg-brand-gradient text-white">
             <GraduationCap className="size-6" />
           </span>
           <h1 className="mt-3 text-xl font-bold tracking-tight">
@@ -99,7 +99,7 @@ export default function VerifyCertificatePage({
             <Card>
               <CardContent className="p-6">
                 <div className="flex items-center gap-3">
-                  <span className="inline-flex size-12 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 text-white">
+                  <span className="inline-flex size-12 shrink-0 items-center justify-center rounded-xl bg-brand-gradient text-white">
                     <GraduationCap className="size-6" />
                   </span>
                   <p className="text-lg font-bold tracking-tight">

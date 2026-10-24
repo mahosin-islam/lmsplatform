@@ -142,7 +142,7 @@ export function SubmissionViewDialog({
                       / {effectiveTotal}
                     </span>
                   </div>
-                  <Badge className="ml-auto bg-emerald-100 text-emerald-700">
+                  <Badge className="ml-auto bg-emerald-100 text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-300">
                     <Award className="mr-1 size-3.5" />
                     Graded
                   </Badge>

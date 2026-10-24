@@ -16,8 +16,28 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "LMS Platform",
-  description: "Learning Management System",
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL ?? "https://lms-platform.vercel.app"
+  ),
+  title: {
+    default: "LMS Platform — Learn English with Live Batches & Courses",
+    template: "%s | LMS Platform",
+  },
+  description:
+    "Learn English with expert teachers through self-paced courses and live batches. Track your progress, submit assignments, join support sessions and earn verifiable certificates.",
+  openGraph: {
+    type: "website",
+    siteName: "LMS Platform",
+    title: "LMS Platform — Learn English with Live Batches & Courses",
+    description:
+      "Self-paced English courses and live batches with expert teachers, assignments, support sessions and verifiable certificates.",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "LMS Platform — Learn English with Live Batches & Courses",
+    description:
+      "Self-paced English courses and live batches with expert teachers.",
+  },
 };
 
 export default function RootLayout({
@@ -26,9 +46,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} font-sans antialiased`}
       >
         <Providers>{children}</Providers>
         <Toaster />

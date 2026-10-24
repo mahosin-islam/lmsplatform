@@ -41,6 +41,7 @@ import {
   formatDate,
   formatPrice,
   LEVEL_BADGE_CLASS,
+  LEVEL_LABEL,
 } from "@/lib/course-utils";
 import { CourseThumbnail } from "@/components/course/CourseThumbnail";
 import { ReviewDialog } from "@/components/course/ReviewDialog";
@@ -59,7 +60,7 @@ function initials(name: string): string {
 function LessonTypeIcon({ type }: { type: LessonType }) {
   if (type === "VIDEO") return <PlayCircle className="size-4 text-primary" />;
   if (type === "QUIZ") return <HelpCircle className="size-4 text-amber-500" />;
-  return <FileText className="size-4 text-blue-500" />;
+  return <FileText className="size-4 text-sky-500" />;
 }
 
 function Stars({ value, size = "size-4" }: { value: number; size?: string }) {
@@ -317,7 +318,7 @@ export default function CourseDetailPage() {
                   LEVEL_BADGE_CLASS[course.level]
                 )}
               >
-                {course.level}
+                {LEVEL_LABEL[course.level]}
               </span>
               <span className="rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-semibold text-primary">
                 {course.courseType === "FIXED" ? "Self-Paced" : "Live Batch"}
@@ -395,7 +396,7 @@ export default function CourseDetailPage() {
                     <span
                       className={cn(
                         "text-3xl font-bold",
-                        course.price === 0 ? "text-green-600" : "text-foreground"
+                        course.price === 0 ? "text-brand-teal-strong" : "text-foreground"
                       )}
                     >
                       {formatPrice(course.price)}
@@ -403,11 +404,11 @@ export default function CourseDetailPage() {
                   </div>
 
                   {isAdmin ? (
-                    <div className="rounded-lg border border-amber-200 bg-amber-50 p-4">
-                      <p className="mb-2 text-sm font-medium text-amber-800">
-                        👨‍💼 You are logged in as Admin
+                    <div className="rounded-lg border border-amber-200 bg-amber-50 p-4 dark:border-amber-500/30 dark:bg-amber-500/10">
+                      <p className="mb-2 text-sm font-medium text-amber-800 dark:text-amber-300">
+                        You are logged in as Admin
                       </p>
-                      <p className="mb-3 text-xs text-amber-700">
+                      <p className="mb-3 text-xs text-amber-700 dark:text-amber-300/80">
                         Only learner accounts can enroll in courses. To test
                         enrollment, please log out and register a new learner
                         account.
@@ -522,7 +523,7 @@ export default function CourseDetailPage() {
                         key={module.id}
                         className="flex items-start gap-2 text-sm"
                       >
-                        <CheckCircle2 className="mt-0.5 size-4 shrink-0 text-green-500" />
+                        <CheckCircle2 className="mt-0.5 size-4 shrink-0 text-brand-teal-strong" />
                         <span>{module.title}</span>
                       </li>
                     ))}
@@ -534,11 +535,11 @@ export default function CourseDetailPage() {
                 <h2 className="text-xl font-bold">Requirements</h2>
                 <ul className="mt-4 space-y-2 text-sm text-muted-foreground">
                   <li className="flex items-start gap-2">
-                    <CheckCircle2 className="mt-0.5 size-4 shrink-0 text-green-500" />
+                    <CheckCircle2 className="mt-0.5 size-4 shrink-0 text-brand-teal-strong" />
                     No prior experience required
                   </li>
                   <li className="flex items-start gap-2">
-                    <CheckCircle2 className="mt-0.5 size-4 shrink-0 text-green-500" />
+                    <CheckCircle2 className="mt-0.5 size-4 shrink-0 text-brand-teal-strong" />
                     A device with internet access
                   </li>
                 </ul>
@@ -585,7 +586,7 @@ export default function CourseDetailPage() {
               {alreadyReviewed && (
                 <Badge
                   variant="outline"
-                  className="border-green-200 bg-green-50 text-green-700"
+                  className="border-emerald-200 bg-emerald-50 text-emerald-700 dark:border-emerald-500/30 dark:bg-emerald-500/10 dark:text-emerald-300"
                 >
                   <CheckCircle2 className="size-4 mr-1.5" />
                   You&apos;ve reviewed this course
@@ -611,9 +612,9 @@ export default function CourseDetailPage() {
             {user && user.role === "LEARNER" && !isEnrolled && (
               <div
                 role="alert"
-                className="mt-6 flex items-center gap-2 rounded-lg border border-blue-200 bg-blue-50 px-4 py-3 text-sm text-blue-800"
+                className="mt-6 flex items-center gap-2 rounded-lg border border-sky-200 bg-sky-50 px-4 py-3 text-sm text-sky-800 dark:border-sky-500/30 dark:bg-sky-500/10 dark:text-sky-300"
               >
-                <Info className="size-4 shrink-0 text-blue-700" />
+                <Info className="size-4 shrink-0 text-sky-700 dark:text-sky-300" />
                 <p>Enroll in this course to write a review.</p>
               </div>
             )}
@@ -621,9 +622,9 @@ export default function CourseDetailPage() {
             {user && user.role === "ADMIN" && (
               <div
                 role="alert"
-                className="mt-6 flex items-center gap-2 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800"
+                className="mt-6 flex items-center gap-2 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800 dark:border-amber-500/30 dark:bg-amber-500/10 dark:text-amber-300"
               >
-                <Info className="size-4 shrink-0 text-amber-700" />
+                <Info className="size-4 shrink-0 text-amber-700 dark:text-amber-300" />
                 <p>Admins cannot write reviews. Only learners can.</p>
               </div>
             )}
@@ -740,7 +741,7 @@ export default function CourseDetailPage() {
 function IncludedItem({ children }: { children: React.ReactNode }) {
   return (
     <li className="flex items-center gap-2 text-muted-foreground">
-      <CheckCircle2 className="size-4 shrink-0 text-green-500" />
+      <CheckCircle2 className="size-4 shrink-0 text-brand-teal-strong" />
       {children}
     </li>
   );
@@ -845,7 +846,7 @@ function CurriculumAccordion({ modules }: { modules: Module[] }) {
                         </span>
                         <span className="flex shrink-0 items-center gap-2 text-xs text-muted-foreground">
                           {lesson.isFree && (
-                            <span className="rounded-full bg-green-100 px-2 py-0.5 font-semibold text-green-700">
+                            <span className="rounded-full bg-brand-teal/10 px-2 py-0.5 font-semibold text-brand-teal-strong">
                               Free Preview
                             </span>
                           )}
@@ -896,17 +897,31 @@ function BatchDetailCard({
 
   const containerClass =
     s === "ACTIVE"
-      ? "border-2 border-green-200 bg-green-50/30"
+      ? "border-2 border-emerald-200 bg-emerald-50/40 dark:border-emerald-500/30 dark:bg-emerald-500/10"
       : s === "UPCOMING"
-        ? "border-2 border-amber-200 bg-amber-50/30"
-        : "border border-gray-200 opacity-70";
+        ? "border-2 border-amber-200 bg-amber-50/40 dark:border-amber-500/30 dark:bg-amber-500/10"
+        : "border border-border opacity-70";
 
   const badge =
     s === "ACTIVE"
-      ? { label: "ACTIVE", className: "bg-green-100 text-green-700", dot: "bg-green-500" }
+      ? {
+          label: "ACTIVE",
+          className:
+            "bg-emerald-100 text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-300",
+          dot: "bg-emerald-500",
+        }
       : s === "UPCOMING"
-        ? { label: "UPCOMING", className: "bg-amber-100 text-amber-700", dot: "bg-amber-500" }
-        : { label: "COMPLETED", className: "bg-gray-200 text-gray-600", dot: "bg-gray-500" };
+        ? {
+            label: "UPCOMING",
+            className:
+              "bg-amber-100 text-amber-700 dark:bg-amber-500/15 dark:text-amber-300",
+            dot: "bg-amber-500",
+          }
+        : {
+            label: "COMPLETED",
+            className: "bg-muted text-muted-foreground",
+            dot: "bg-muted-foreground",
+          };
 
   return (
     <div
@@ -943,7 +958,7 @@ function BatchDetailCard({
           {enrollments} enrolled
         </p>
       ) : s === "COMPLETED" ? (
-        <p className="mt-1 inline-flex items-center gap-1.5 text-sm text-green-600">
+        <p className="mt-1 inline-flex items-center gap-1.5 text-sm text-brand-teal-strong">
           <CheckCircle2 className="size-4" />
           Ended
         </p>
@@ -951,7 +966,7 @@ function BatchDetailCard({
 
       <div className="mt-5">
         {admin ? (
-          <div className="rounded-lg border border-amber-200 bg-amber-50 p-3 text-xs text-amber-700">
+          <div className="rounded-lg border border-amber-200 bg-amber-50 p-3 text-xs text-amber-700 dark:border-amber-500/30 dark:bg-amber-500/10 dark:text-amber-300">
             Admins cannot enroll. Log in with a learner account to join this
             batch.
           </div>

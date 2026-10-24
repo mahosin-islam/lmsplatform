@@ -84,8 +84,8 @@ function useUnreadCount(userId?: string): number {
 function SidebarBrand({ onNavigate }: { onNavigate?: () => void }) {
   return (
     <Link href="/" onClick={onNavigate}>
-      <div className="flex h-16 items-center gap-2 border-b border-slate-200 px-5">
-        <span className="inline-flex size-9 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 text-white shadow-sm">
+      <div className="flex h-16 items-center gap-2 border-b border-border px-5">
+        <span className="inline-flex size-9 items-center justify-center rounded-xl bg-brand-gradient text-white shadow-sm">
           <GraduationCap className="size-5" />
         </span>
         <span className="text-base font-semibold tracking-tight">
@@ -121,7 +121,7 @@ function SidebarNav({
               "flex items-center gap-3 border-l-4 px-3 py-2 text-sm transition-colors",
               active
                 ? "border-primary bg-primary/10 font-semibold text-primary"
-                : "border-transparent text-slate-600 hover:bg-slate-100 hover:text-slate-900"
+                : "border-transparent text-muted-foreground hover:bg-muted hover:text-foreground"
             )}
           >
             <Icon className="size-4 shrink-0" />
@@ -155,17 +155,17 @@ function SidebarFooter({
 }) {
   const profileActive = isActive(pathname, "/learner/profile");
   return (
-    <div className="border-t  border-slate-200 p-3">
+    <div className="border-t  border-border p-3">
       <div className="flex items-center gap-3 rounded-lg px-2 py-2">
         <Avatar className="size-9">
           {avatar ? <AvatarImage src={avatar} alt={name} /> : null}
-          <AvatarFallback className="bg-indigo-50 text-sm text-indigo-600">
+          <AvatarFallback className="bg-primary/10 text-sm text-primary">
             {getUserInitials(name)}
           </AvatarFallback>
         </Avatar>
         <div className="min-w-0 flex-1">
-          <p className="truncate text-sm font-medium text-slate-900">{name}</p>
-          <p className="truncate text-xs text-slate-500">{email}</p>
+          <p className="truncate text-sm font-medium text-foreground">{name}</p>
+          <p className="truncate text-xs text-muted-foreground">{email}</p>
         </div>
       </div>
       <div className="mt-1 space-y-1">
@@ -177,7 +177,7 @@ function SidebarFooter({
             "flex items-center gap-3 border-l-4 rounded-lg px-3 py-2 text-sm font-medium transition-colors",
             profileActive
               ? "border-primary bg-primary/10 font-semibold text-primary"
-              : "border-transparent text-slate-600 hover:bg-slate-100 hover:text-slate-900"
+              : "border-transparent text-muted-foreground hover:bg-muted hover:text-foreground"
           )}
         >
           <UserIcon className="size-4" />
@@ -186,7 +186,7 @@ function SidebarFooter({
         <button
           type="button"
           onClick={onLogout}
-          className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-slate-600 transition-colors hover:bg-slate-100 hover:text-slate-900"
+          className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
         >
           <LogOut className="size-4" />
           Logout
@@ -220,8 +220,8 @@ export default function LearnerLayout({
 
   if (loading) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-slate-50">
-        <Loader2 className="size-8 animate-spin text-indigo-600" />
+      <div className="flex min-h-screen items-center justify-center bg-background">
+        <Loader2 className="size-8 animate-spin text-primary" />
       </div>
     );
   }
@@ -233,8 +233,8 @@ export default function LearnerLayout({
   const title = pageTitle(pathname);
 
   return (
-    <div className="min-h-screen bg-slate-50">
-      <aside className="fixed inset-y-0 left-0 z-40 hidden w-60 flex-col border-r border-slate-200 bg-gradient-to-b from-indigo-50/70 to-white md:flex">
+    <div className="min-h-screen bg-background">
+      <aside className="fixed inset-y-0 left-0 z-40 hidden w-60 flex-col border-r border-border bg-background md:flex">
         <SidebarBrand />
         <SidebarNav pathname={pathname} unreadCount={unreadCount} />
         <SidebarFooter
@@ -246,7 +246,7 @@ export default function LearnerLayout({
         />
       </aside>
 
-      <header className="sticky top-0 z-30 flex h-16 items-center justify-between gap-3 border-b border-slate-200 bg-white px-4 md:hidden">
+      <header className="sticky top-0 z-30 flex h-16 items-center justify-between gap-3 border-b border-border bg-background px-4 md:hidden">
         <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
           <SheetTrigger
             render={
@@ -257,7 +257,7 @@ export default function LearnerLayout({
           </SheetTrigger>
           <SheetContent
             side="left"
-            className="flex flex-col bg-gradient-to-b from-indigo-50/70 to-white p-0"
+            className="flex flex-col bg-background p-0"
           >
             <SheetTitle className="sr-only">Learner navigation</SheetTitle>
             <SidebarBrand onNavigate={() => setMobileOpen(false)} />
@@ -281,7 +281,7 @@ export default function LearnerLayout({
 
         <Avatar className="size-8">
           {user.avatar ? <AvatarImage src={user.avatar} alt={user.name} /> : null}
-          <AvatarFallback className="bg-indigo-50 text-xs text-indigo-600">
+          <AvatarFallback className="bg-primary/10 text-xs text-primary">
             {getUserInitials(user.name)}
           </AvatarFallback>
         </Avatar>

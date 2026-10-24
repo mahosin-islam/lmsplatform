@@ -1,9 +1,7 @@
-import Link from "next/link";
-import { ArrowRight } from "lucide-react";
-
 import { fetchPublic } from "@/lib/api-server";
 import type { Course, CourseListData } from "@/types";
-import { CourseCard } from "@/components/course/CourseCard";
+import { Reveal } from "@/components/shared/Reveal";
+import { FeaturedCourseCard } from "@/components/landing/FeaturedCourseCard";
 
 export async function FeaturedCoursesSection() {
   let courses: Course[] = [];
@@ -26,39 +24,27 @@ export async function FeaturedCoursesSection() {
       if (reviewDiff !== 0) return reviewDiff;
       return b.createdAt.localeCompare(a.createdAt);
     })
-    .slice(0, 6);
+    .slice(0, 3);
 
   return (
-    <section className="bg-slate-50 py-16 md:py-24">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="text-center">
-          <p className="inline-flex items-center gap-2 text-sm font-semibold text-indigo-600">
-            📚 Popular Courses
-          </p>
-          <h2 className="mt-2 text-3xl font-bold text-slate-900 md:text-4xl">
-            Courses our learners love most
+    <section className="section-y bg-background">
+      <div className="page-container">
+        <Reveal className="max-w-2xl">
+          <h2 className="text-2xl leading-tight font-bold tracking-tight text-foreground sm:text-3xl md:text-4xl">
+            Find a course that fits you
           </h2>
-          <p className="mx-auto mt-3 max-w-2xl text-sm leading-relaxed text-slate-600 md:text-base">
-            {courses.length} published course
-            {courses.length === 1 ? "" : "s"} available right now — start with
-            what other students are already taking.
+          <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-base">
+            Self-paced courses and scheduled live batches, taught by instructors
+            on this platform.
           </p>
-        </div>
+        </Reveal>
 
-        <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {featured.map((course) => (
-            <CourseCard key={course.id} course={course} />
+        <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {featured.map((course, i) => (
+            <Reveal key={course.id} delay={i * 0.08} className="h-full">
+              <FeaturedCourseCard course={course} />
+            </Reveal>
           ))}
-        </div>
-
-        <div className="mt-10 text-center">
-          <Link
-            href="/courses"
-            className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-6 py-3 text-sm font-semibold text-slate-700 shadow-sm transition-all hover:border-indigo-300 hover:text-indigo-600 hover:shadow-md"
-          >
-            Browse all courses
-            <ArrowRight className="size-4" />
-          </Link>
         </div>
       </div>
     </section>

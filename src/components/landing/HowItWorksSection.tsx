@@ -1,90 +1,198 @@
-import { Award, CreditCard, MonitorPlay, Search } from "lucide-react";
-import { cn } from "cn";
+"use client";
 
-const STEPS = [
+import React from "react";
+import {
+  ClipboardCheck,
+  MousePointerClick,
+  PlayCircle,
+  Sparkles,
+  BookOpen,
+  Briefcase,
+  MessageCircle,
+  GraduationCap,
+} from "lucide-react";
+
+// Types for How It Works Steps
+interface StepItem {
+  id: string;
+  stepNumber: string;
+  title: string;
+  description: string;
+  icon: React.ElementType;
+  bgClass: string;
+  textClass: string;
+}
+
+// Types for Course Categories
+interface CourseCategory {
+  id: string;
+  title: string;
+  description: string;
+  icon: React.ElementType;
+}
+
+const STEPS: StepItem[] = [
   {
-    number: "01",
-    icon: Search,
-    title: "Find your course",
-    description:
-      "Browse the catalog, filter by level and course type, and compare the full syllabus before you decide.",
-    tint: "bg-indigo-50 text-indigo-600",
+    id: "step-1",
+    stepNumber: "01",
+    title: "Take a quick test",
+    description: "Find your English level in just 2 minutes — no pressure, just a starting point.",
+    icon: ClipboardCheck,
+    bgClass: "bg-slate-100 dark:bg-slate-800 border-slate-200 dark:border-slate-700",
+    textClass: "text-slate-900 dark:text-white",
   },
   {
-    number: "02",
-    icon: CreditCard,
-    title: "Enroll in seconds",
-    description:
-      "Pay securely with bKash or NAGAD — or jump straight into free courses the moment you sign up.",
-    tint: "bg-purple-50 text-purple-600",
+    id: "step-2",
+    stepNumber: "03",
+    title: "Choose your course",
+    description: "Pick the plan that fits your goals: beginner, conversation, business, or exam prep.",
+    icon: MousePointerClick,
+    bgClass: "bg-stone-200 dark:bg-slate-800 border-stone-300 dark:border-slate-700",
+    textClass: "text-slate-900 dark:text-white",
   },
   {
-    number: "03",
-    icon: MonitorPlay,
-    title: "Learn your way",
-    description:
-      "Watch HD lessons anytime, join live support sessions, and complete assignments and quizzes.",
-    tint: "bg-blue-50 text-blue-600",
+    id: "step-3",
+    stepNumber: "04",
+    title: "Start learning online",
+    description: "Access pre-recorded lessons anytime and join weekly video calls with native speaking tutors.",
+    icon: PlayCircle,
+    bgClass: "bg-blue-600 border-blue-500",
+    textClass: "text-white",
   },
   {
-    number: "04",
-    icon: Award,
-    title: "Earn your certificate",
-    description:
-      "Finish 100% of the course and download a shareable certificate with a public verification code.",
-    tint: "bg-amber-50 text-amber-600",
+    id: "step-4",
+    stepNumber: "06",
+    title: "Improve every day",
+    description: "Track your progress, unlock new topics, and stay consistent with smart reminders.",
+    icon: Sparkles,
+    bgClass: "bg-slate-900 dark:bg-slate-950 border-slate-800",
+    textClass: "text-white",
   },
 ];
 
-export function HowItWorksSection() {
-  return (
-    <section className="bg-white py-16 md:py-24">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="text-center">
-          <p className="inline-flex items-center gap-2 text-sm font-semibold text-indigo-600">
-            ⚡ How It Works
-          </p>
-          <h2 className="mt-2 text-3xl font-bold text-slate-900 md:text-4xl">
-            From signup to certificate in 4 steps
-          </h2>
-          <p className="mx-auto mt-3 max-w-2xl text-sm leading-relaxed text-slate-600 md:text-base">
-            No complicated setup — create an account and start learning the
-            same day.
-          </p>
-        </div>
+const COURSE_CATEGORIES: CourseCategory[] = [
+  {
+    id: "cat-1",
+    title: "Beginner English",
+    description: "Practice real-life speaking to improve fluency, pronunciation, listening, and natural flow in everyday English conversations.",
+    icon: BookOpen,
+  },
+  {
+    id: "cat-2",
+    title: "Business English",
+    description: "Learn clear, professional English for emails, meetings, presentations, and interviews in any modern work environment.",
+    icon: Briefcase,
+  },
+  {
+    id: "cat-3",
+    title: "Conversational English",
+    description: "Practice real-life speaking to improve fluency, pronunciation, listening, and natural flow in everyday English conversations.",
+    icon: MessageCircle,
+  },
+  {
+    id: "cat-4",
+    title: "IELTS / TOEFL Prep",
+    description: "Prepare for exams with focused lessons, timed tasks, proven strategies, and expert tips to boost your overall score.",
+    icon: GraduationCap,
+  },
+];
 
-        <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {STEPS.map(({ number, icon: Icon, title, description, tint }) => (
-            <div
-              key={number}
-              className="relative overflow-hidden rounded-2xl border border-slate-100 bg-white p-7 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:shadow-lg"
-            >
-              <span
-                aria-hidden="true"
-                className="absolute top-2 right-2 text-5xl font-black text-indigo-100 select-none"
-              >
-                {number}
+export default function HowItWorksSection() {
+  return (
+    <section className="section-y bg-muted/40">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        {/* Main Grid Wrapper for 2 Sections */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-start">
+          
+          {/* SECTION 1: How It Works (Left Side - 7 Columns) */}
+          <div className="lg:col-span-7 bg-card rounded-3xl p-6 sm:p-8 border border-border shadow-sm">
+            {/* Header */}
+            <div className="text-center mb-10">
+              <span className="inline-block px-3 py-1 text-xs font-medium rounded-full bg-primary/5 text-primary mb-2 border border-primary/10">
+                Simple process
               </span>
-              <span
-                className={cn(
-                  "relative inline-flex size-13 items-center justify-center rounded-2xl",
-                  tint
-                )}
-              >
-                <Icon className="size-6" />
-              </span>
-              <p className="relative mt-4 text-xs font-bold tracking-widest text-indigo-500 uppercase">
-                Step {number}
-              </p>
-              <h3 className="relative mt-1 text-lg font-bold text-slate-900">
-                {title}
-              </h3>
-              <p className="relative mt-2 text-sm leading-relaxed text-slate-600">
-                {description}
+              <h2 className="text-3xl sm:text-4xl font-extrabold text-foreground tracking-tight">
+                How it works
+              </h2>
+              <p className="mt-2 text-sm sm:text-base text-muted-foreground max-w-md mx-auto">
+                Get started in minutes — choose your path, learn at your pace, and see real progress.
               </p>
             </div>
-          ))}
+
+            {/* Timeline Steps Layout */}
+            <div className="relative pl-4 sm:pl-8 space-y-6 before:absolute before:left-2 sm:before:left-4 before:top-3 before:bottom-3 before:w-0.5 before:bg-slate-200 dark:before:bg-slate-800">
+              {STEPS.map((step) => {
+                const Icon = step.icon;
+                return (
+                  <div key={step.id} className="relative group">
+                    {/* Node Dot on Timeline */}
+                    <div className="absolute -left-[21px] sm:-left-[37px] top-4 w-3.5 h-3.5 rounded-full bg-white dark:bg-slate-900 border-2 border-blue-500 shadow-sm" />
+
+                    {/* Step Card */}
+                    <div className={`p-5 rounded-2xl border shadow-sm transition-all duration-300 hover:shadow-md ${step.bgClass}`}>
+                      <div className="flex items-start gap-3.5">
+                        <div className="p-2 rounded-xl bg-white/20 dark:bg-black/20 shrink-0">
+                          <Icon className={`w-5 h-5 ${step.textClass}`} />
+                        </div>
+                        <div>
+                          <h3 className={`text-base font-bold ${step.textClass}`}>
+                            {step.title}
+                          </h3>
+                          <p className={`mt-1 text-xs sm:text-sm leading-relaxed opacity-90 ${step.textClass}`}>
+                            {step.description}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+
+          {/* SECTION 2: Choose Course (Right Side - 5 Columns) */}
+          <div className="lg:col-span-5 bg-card rounded-3xl p-6 sm:p-8 border border-border shadow-sm">
+            {/* Header */}
+            <div className="text-center mb-8">
+              <span className="inline-block px-3 py-1 text-xs font-medium rounded-full bg-primary/5 text-primary mb-2 border border-primary/10">
+                Courses
+              </span>
+              <h2 className="text-2xl sm:text-3xl font-extrabold text-foreground tracking-tight leading-snug">
+                Choose the right <br />
+                <span className="text-muted-foreground font-normal">course for your goals</span>
+              </h2>
+            </div>
+
+            {/* Course Cards List */}
+            <div className="space-y-4">
+              {COURSE_CATEGORIES.map((course) => {
+                const Icon = course.icon;
+                return (
+                  <div
+                    key={course.id}
+                    className="p-5 rounded-2xl bg-muted/30 border border-border hover:border-primary/40 transition-all duration-300 group cursor-pointer"
+                  >
+                    <div className="flex items-center gap-3 mb-2">
+                      <div className="p-1.5 rounded-lg bg-primary/10 text-primary group-hover:scale-110 transition-transform">
+                        <Icon className="w-4 h-4" />
+                      </div>
+                      <h3 className="text-sm font-bold text-foreground group-hover:text-primary transition-colors">
+                        {course.title}
+                      </h3>
+                    </div>
+                    <p className="text-xs text-muted-foreground leading-relaxed pl-8">
+                      {course.description}
+                    </p>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
         </div>
+
       </div>
     </section>
   );

@@ -18,7 +18,7 @@ export function SecurityTab() {
     <div className="space-y-4">
       <Card>
         <CardContent className="flex items-start gap-4 p-6">
-          <span className="inline-flex size-10 shrink-0 items-center justify-center rounded-xl bg-amber-100 text-amber-600">
+          <span className="inline-flex size-10 shrink-0 items-center justify-center rounded-xl bg-amber-100 text-amber-600 dark:bg-amber-500/15 dark:text-amber-300">
             <Lock className="size-5" />
           </span>
           <div className="min-w-0 flex-1">
@@ -46,7 +46,7 @@ export function SecurityTab() {
       {user ? (
         <Card>
           <CardContent className="flex items-center gap-4 p-6">
-            <span className="inline-flex size-10 shrink-0 items-center justify-center rounded-xl bg-blue-100 text-blue-600">
+            <span className="inline-flex size-10 shrink-0 items-center justify-center rounded-xl bg-blue-100 text-blue-600 dark:bg-blue-500/15 dark:text-blue-300">
               <Mail className="size-5" />
             </span>
             <div className="min-w-0 flex-1">

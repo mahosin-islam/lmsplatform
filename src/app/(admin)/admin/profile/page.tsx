@@ -82,7 +82,7 @@ export default function AdminProfilePage() {
       value: String(myCourses.length),
       subtext: "created by you",
       icon: BookOpen,
-      iconBg: "bg-violet-100 text-violet-600",
+      iconBg: "bg-primary/10 text-primary",
     },
     {
       key: "students",
@@ -90,7 +90,7 @@ export default function AdminProfilePage() {
       value: String(stats?.users.learners ?? 0),
       subtext: "total learners",
       icon: Users,
-      iconBg: "bg-indigo-100 text-indigo-600",
+      iconBg: "bg-primary/10 text-primary",
     },
     {
       key: "enrollments",
@@ -98,7 +98,7 @@ export default function AdminProfilePage() {
       value: String(stats?.enrollments.total ?? 0),
       subtext: `${stats?.enrollments.active ?? 0} active`,
       icon: GraduationCap,
-      iconBg: "bg-emerald-100 text-emerald-600",
+      iconBg: "bg-emerald-100 text-emerald-600 dark:bg-emerald-500/15 dark:text-emerald-300",
     },
     {
       key: "revenue",
@@ -106,7 +106,7 @@ export default function AdminProfilePage() {
       value: formatPrice(stats?.payments.totalRevenue ?? 0),
       subtext: `${stats?.payments.pendingPayments ?? 0} pending`,
       icon: Wallet,
-      iconBg: "bg-amber-100 text-amber-600",
+      iconBg: "bg-amber-100 text-amber-600 dark:bg-amber-500/15 dark:text-amber-300",
     },
     {
       key: "assignments",
@@ -114,7 +114,7 @@ export default function AdminProfilePage() {
       value: String(stats?.others.assignments ?? 0),
       subtext: "published",
       icon: ClipboardList,
-      iconBg: "bg-purple-100 text-purple-600",
+      iconBg: "bg-brand-teal/10 text-brand-teal-strong",
     },
     {
       key: "certificates",
@@ -122,7 +122,7 @@ export default function AdminProfilePage() {
       value: String(stats?.others.certificates ?? 0),
       subtext: "issued",
       icon: Award,
-      iconBg: "bg-rose-100 text-rose-600",
+      iconBg: "bg-rose-100 text-rose-600 dark:bg-rose-500/15 dark:text-rose-300",
     },
   ];
 

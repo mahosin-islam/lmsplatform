@@ -128,7 +128,7 @@ export function SubmitAssignmentDialog({
                 href={assignment.docUrl}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center gap-1 text-sm font-medium text-indigo-600 hover:underline"
+                className="inline-flex items-center gap-1 text-sm font-medium text-primary hover:underline"
               >
                 Open instructions
                 <ExternalLink className="size-3.5" />
@@ -139,7 +139,7 @@ export function SubmitAssignmentDialog({
           <div className="flex flex-wrap items-center gap-2">
             <Badge
               variant="secondary"
-              className={deadlineStatus.color === "red" ? "bg-red-100 text-red-700" : undefined}
+              className={deadlineStatus.color === "red" ? "bg-red-100 text-red-700 dark:bg-red-500/15 dark:text-red-300" : undefined}
             >
               <CalendarClock className="size-3" />
               {deadlineStatus.label}

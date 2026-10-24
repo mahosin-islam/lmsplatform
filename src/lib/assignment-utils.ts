@@ -33,7 +33,7 @@ export function gradeLetter(percent: number): string {
 }
 
 export function scoreBadgeClass(percent: number): string {
-  if (percent >= 80) return "bg-emerald-100 text-emerald-700";
-  if (percent >= 60) return "bg-amber-100 text-amber-700";
-  return "bg-red-100 text-red-700";
+  if (percent >= 80) return "bg-emerald-100 text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-300";
+  if (percent >= 60) return "bg-amber-100 text-amber-700 dark:bg-amber-500/15 dark:text-amber-300";
+  return "bg-red-100 text-red-700 dark:bg-red-500/15 dark:text-red-300";
 }

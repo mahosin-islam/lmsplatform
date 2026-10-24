@@ -25,32 +25,32 @@ export const NOTIFICATION_TYPE_META: Record<
   NEW_LESSON: {
     label: "New Lesson",
     icon: BookOpen,
-    iconClass: "bg-blue-100 text-blue-600",
-    badgeClass: "bg-blue-100 text-blue-700",
+    iconClass: "bg-blue-100 text-blue-600 dark:bg-blue-500/15 dark:text-blue-300",
+    badgeClass: "bg-blue-100 text-blue-700 dark:bg-blue-500/15 dark:text-blue-300",
   },
   NEW_ASSIGNMENT: {
     label: "New Assignment",
     icon: ClipboardList,
-    iconClass: "bg-purple-100 text-purple-600",
-    badgeClass: "bg-purple-100 text-purple-700",
+    iconClass: "bg-brand-teal/10 text-brand-teal-strong",
+    badgeClass: "bg-brand-teal/10 text-brand-teal-strong",
   },
   NEW_LIVE_CLASS: {
     label: "Live Class",
     icon: Video,
-    iconClass: "bg-red-100 text-red-600",
-    badgeClass: "bg-red-100 text-red-700",
+    iconClass: "bg-red-100 text-red-600 dark:bg-red-500/15 dark:text-red-300",
+    badgeClass: "bg-red-100 text-red-700 dark:bg-red-500/15 dark:text-red-300",
   },
   ANNOUNCEMENT: {
     label: "Announcement",
     icon: Megaphone,
-    iconClass: "bg-amber-100 text-amber-600",
-    badgeClass: "bg-amber-100 text-amber-700",
+    iconClass: "bg-amber-100 text-amber-600 dark:bg-amber-500/15 dark:text-amber-300",
+    badgeClass: "bg-amber-100 text-amber-700 dark:bg-amber-500/15 dark:text-amber-300",
   },
   COURSE_COMPLETED: {
     label: "Course Completed",
     icon: GraduationCap,
-    iconClass: "bg-emerald-100 text-emerald-600",
-    badgeClass: "bg-emerald-100 text-emerald-700",
+    iconClass: "bg-emerald-100 text-emerald-600 dark:bg-emerald-500/15 dark:text-emerald-300",
+    badgeClass: "bg-emerald-100 text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-300",
   },
 };
 
@@ -75,7 +75,7 @@ export function NotificationPreview({
   return (
     <div className="rounded-xl border bg-card p-3 shadow-sm">
       <div className="flex items-center gap-2">
-        <span className="flex size-8 items-center justify-center rounded-lg bg-sky-100 text-sky-600">
+        <span className="flex size-8 items-center justify-center rounded-lg bg-sky-100 text-sky-600 dark:bg-sky-500/15 dark:text-sky-300">
           <Bell className="size-4" />
         </span>
         <span className="text-xs font-medium text-muted-foreground">

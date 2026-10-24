@@ -300,7 +300,7 @@ function EnrollmentCard({
 
   return (
     <Card className="overflow-hidden">
-      <div className="relative aspect-video w-full bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500">
+      <div className="relative aspect-video w-full bg-brand-gradient">
         {enrollment.course?.thumbnail ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
@@ -313,7 +313,7 @@ function EnrollmentCard({
             <GraduationCap className="size-12 text-white/70" />
           </div>
         )}
-        <Badge className="absolute left-2 top-2 bg-white/90 text-indigo-700">
+        <Badge className="absolute left-2 top-2 bg-white/90 text-primary">
           {badgeLabel}
         </Badge>
       </div>
@@ -336,11 +336,11 @@ function EnrollmentCard({
           <div className="flex items-center justify-between text-xs text-muted-foreground">
             <span>{enrollment.progress}% complete</span>
             {counts && counts.total > 0 ? (
-              <span className="font-medium text-slate-600">
+              <span className="font-medium text-muted-foreground">
                 {counts.completed} of {counts.total} lessons
               </span>
             ) : (
-              <span className="font-medium text-slate-600">
+              <span className="font-medium text-muted-foreground">
                 {pending
                   ? "Awaiting payment"
                   : enrollment.status === "COMPLETED"

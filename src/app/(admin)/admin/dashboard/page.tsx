@@ -71,7 +71,7 @@ function Stars({ rating }: { rating: number }) {
             "size-3.5",
             i < Math.round(rating)
               ? "fill-amber-400 text-amber-400"
-              : "text-slate-300"
+              : "text-muted-foreground/30"
           )}
         />
       ))}
@@ -82,7 +82,7 @@ function Stars({ rating }: { rating: number }) {
 function EmptyRow({ message }: { message: string }) {
   return (
     <div className="flex flex-col items-center justify-center gap-2 py-10 text-center">
-      <span className="inline-flex size-10 items-center justify-center rounded-full bg-slate-100 text-slate-400">
+      <span className="inline-flex size-10 items-center justify-center rounded-full bg-muted text-muted-foreground">
         <AlertCircle className="size-5" />
       </span>
       <p className="text-sm text-muted-foreground">{message}</p>
@@ -267,28 +267,28 @@ export default function AdminDashboardPage() {
       label: "Total Users",
       value: String(stats?.users.total ?? 0),
       sub: `${stats?.users.learners ?? 0} learners`,
-      tint: "bg-blue-100 text-blue-600",
+      tint: "bg-blue-100 text-blue-600 dark:bg-blue-500/15 dark:text-blue-300",
     },
     {
       icon: BookOpen,
       label: "Courses",
       value: String(stats?.courses.total ?? 0),
       sub: `${stats?.courses.batch ?? 0} batch · ${stats?.courses.fixed ?? 0} fixed`,
-      tint: "bg-violet-100 text-violet-600",
+      tint: "bg-primary/10 text-primary",
     },
     {
       icon: GraduationCap,
       label: "Enrollments",
       value: String(stats?.enrollments.total ?? 0),
       sub: `${stats?.enrollments.active ?? 0} active`,
-      tint: "bg-emerald-100 text-emerald-600",
+      tint: "bg-emerald-100 text-emerald-600 dark:bg-emerald-500/15 dark:text-emerald-300",
     },
     {
       icon: Wallet,
       label: "Revenue",
       value: formatMoney(stats?.payments.totalRevenue ?? 0),
       sub: `${stats?.payments.pendingPayments ?? 0} pending payments`,
-      tint: "bg-amber-100 text-amber-600",
+      tint: "bg-amber-100 text-amber-600 dark:bg-amber-500/15 dark:text-amber-300",
     },
   ];
 
@@ -371,7 +371,7 @@ export default function AdminDashboardPage() {
                         <TableCell>
                           <Badge
                             variant="secondary"
-                            className="bg-emerald-100 text-emerald-700"
+                            className="bg-emerald-100 text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-300"
                           >
                             {status}
                           </Badge>
@@ -491,7 +491,7 @@ export default function AdminDashboardPage() {
                   key={student.userId}
                   className="flex items-center gap-3"
                 >
-                  <span className="inline-flex size-6 shrink-0 items-center justify-center rounded-full bg-slate-100 text-xs font-semibold text-slate-600">
+                  <span className="inline-flex size-6 shrink-0 items-center justify-center rounded-full bg-muted text-xs font-semibold text-muted-foreground">
                     {student.rank}
                   </span>
                   <Avatar className="size-8">

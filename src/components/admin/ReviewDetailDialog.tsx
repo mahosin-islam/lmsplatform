@@ -46,7 +46,7 @@ export function Stars({
             size,
             index < Math.round(value)
               ? "fill-amber-400 text-amber-400"
-              : "fill-slate-200 text-slate-200"
+              : "fill-muted-foreground/25 text-muted-foreground/25"
           )}
         />
       ))}

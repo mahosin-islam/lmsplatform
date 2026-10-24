@@ -238,25 +238,25 @@ export default function AdminReviewsPage() {
       label: "Avg Rating",
       value: stats.average.toFixed(1),
       icon: Star,
-      tint: "bg-amber-100 text-amber-600",
+      tint: "bg-amber-100 text-amber-600 dark:bg-amber-500/15 dark:text-amber-300",
     },
     {
       label: "Total Reviews",
       value: String(stats.total),
       icon: MessageSquare,
-      tint: "bg-blue-100 text-blue-600",
+      tint: "bg-blue-100 text-blue-600 dark:bg-blue-500/15 dark:text-blue-300",
     },
     {
       label: "Courses Reviewed",
       value: String(stats.coursesReviewed),
       icon: ExternalLink,
-      tint: "bg-violet-100 text-violet-600",
+      tint: "bg-primary/10 text-primary",
     },
     {
       label: "Low Ratings (1-2\u2605)",
       value: String(stats.lowRatings),
       icon: AlertCircle,
-      tint: "bg-red-100 text-red-600",
+      tint: "bg-red-100 text-red-600 dark:bg-red-500/15 dark:text-red-300",
     },
   ];
 
@@ -398,7 +398,7 @@ export default function AdminReviewsPage() {
       ) : filtered.length === 0 ? (
         <Card className="border-dashed">
           <CardContent className="flex flex-col items-center justify-center gap-3 py-16 text-center">
-            <span className="inline-flex size-14 items-center justify-center rounded-2xl bg-amber-100 text-amber-600">
+            <span className="inline-flex size-14 items-center justify-center rounded-2xl bg-amber-100 text-amber-600 dark:bg-amber-500/15 dark:text-amber-300">
               <Star className="size-7" />
             </span>
             <div>

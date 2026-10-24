@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 export function SupportSessionEmptyState() {
   return (
     <div className="flex flex-col items-center gap-3 rounded-xl border border-dashed bg-card p-12 text-center">
-      <span className="inline-flex size-16 items-center justify-center rounded-full bg-gradient-to-br from-indigo-100 to-purple-100 text-indigo-600">
+      <span className="inline-flex size-16 items-center justify-center rounded-full bg-primary/10 text-primary">
         <Headphones className="size-8" />
       </span>
       <div>
@@ -21,7 +21,7 @@ export function SupportSessionEmptyState() {
         support system.
       </p>
       <a href="mailto:support@lmsplatform.com" className="mt-2">
-        <Button className="bg-gradient-to-r from-emerald-500 to-teal-500 text-white hover:from-emerald-600 hover:to-teal-600">
+        <Button className="bg-emerald-600 text-white hover:bg-emerald-700">
           <Mail className="size-4" />
           support@lmsplatform.com
         </Button>

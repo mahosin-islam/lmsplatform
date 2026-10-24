@@ -50,14 +50,14 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 type CourseTab = "ALL" | CourseType;
 
 const STATUS_BADGE_CLASS: Record<CourseStatus, string> = {
-  PUBLISHED: "bg-emerald-100 text-emerald-700",
-  DRAFT: "bg-amber-100 text-amber-700",
-  ARCHIVED: "bg-slate-200 text-slate-600",
+  PUBLISHED: "bg-emerald-100 text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-300",
+  DRAFT: "bg-amber-100 text-amber-700 dark:bg-amber-500/15 dark:text-amber-300",
+  ARCHIVED: "bg-muted text-muted-foreground",
 };
 
 const TYPE_BADGE_CLASS: Record<CourseType, string> = {
-  FIXED: "bg-blue-100 text-blue-700",
-  BATCH: "bg-violet-100 text-violet-700",
+  FIXED: "bg-blue-100 text-blue-700 dark:bg-blue-500/15 dark:text-blue-300",
+  BATCH: "bg-primary/10 text-primary",
 };
 
 function typeLabel(type: CourseType): string {
@@ -75,7 +75,7 @@ function CourseCell({ course }: { course: Course }) {
           className="size-10 shrink-0 rounded-lg object-cover"
         />
       ) : (
-        <span className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-indigo-500 to-purple-500 text-white">
+        <span className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-brand-gradient text-white">
           <BookOpen className="size-5" />
         </span>
       )}
@@ -331,7 +331,7 @@ export default function AdminCoursesPage() {
                         variant="outline"
                         className={cn(
                           (course._count?.batches ?? 0) === 0 &&
-                            "border-amber-300 bg-amber-50 text-amber-700 hover:bg-amber-100 hover:text-amber-800"
+                            "border-amber-300 bg-amber-50 text-amber-700 dark:bg-amber-500/10 dark:text-amber-300 hover:bg-amber-100 hover:text-amber-800"
                         )}
                         nativeButton={false}
                         render={

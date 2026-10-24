@@ -83,20 +83,20 @@ const LESSON_TYPE_CONFIG: Record<
   VIDEO: {
     label: "VIDEO",
     icon: PlayCircle,
-    tint: "bg-blue-100 text-blue-600",
-    badgeClass: "bg-blue-100 text-blue-700",
+    tint: "bg-blue-100 text-blue-600 dark:bg-blue-500/15 dark:text-blue-300",
+    badgeClass: "bg-blue-100 text-blue-700 dark:bg-blue-500/15 dark:text-blue-300",
   },
   TEXT: {
     label: "TEXT",
     icon: FileText,
-    tint: "bg-slate-100 text-slate-600",
-    badgeClass: "bg-slate-200 text-slate-700",
+    tint: "bg-muted text-muted-foreground",
+    badgeClass: "bg-muted text-foreground",
   },
   QUIZ: {
     label: "QUIZ",
     icon: HelpCircle,
-    tint: "bg-purple-100 text-purple-600",
-    badgeClass: "bg-purple-100 text-purple-700",
+    tint: "bg-brand-teal/10 text-brand-teal-strong",
+    badgeClass: "bg-brand-teal/10 text-brand-teal-strong",
   },
 };
 
@@ -146,7 +146,7 @@ function LessonRow({
     : false;
 
   return (
-    <div className="flex items-center gap-3 rounded-lg border bg-white p-3">
+    <div className="flex items-center gap-3 rounded-lg border border-border bg-card p-3">
       <span
         className={cn(
           "inline-flex size-9 shrink-0 items-center justify-center rounded-lg",
@@ -170,15 +170,15 @@ function LessonRow({
             {lessonMeta(lesson)}
           </span>
           {lesson.isFree ? (
-            <Badge className="bg-green-100 text-green-700">Free</Badge>
+            <Badge className="bg-green-100 text-green-700 dark:bg-green-500/15 dark:text-green-300">Free</Badge>
           ) : null}
           {lesson.isPublished ? (
-            <Badge className="bg-green-100 text-green-700">Published</Badge>
+            <Badge className="bg-green-100 text-green-700 dark:bg-green-500/15 dark:text-green-300">Published</Badge>
           ) : (
-            <Badge className="bg-gray-200 text-gray-600">Draft</Badge>
+            <Badge className="bg-muted text-muted-foreground">Draft</Badge>
           )}
           {scheduled ? (
-            <Badge className="bg-amber-100 text-amber-700">Scheduled</Badge>
+            <Badge className="bg-amber-100 text-amber-700 dark:bg-amber-500/15 dark:text-amber-300">Scheduled</Badge>
           ) : null}
         </div>
 
@@ -188,7 +188,7 @@ function LessonRow({
             className={cn(
               "mt-2 inline-flex w-fit items-center gap-1.5 rounded-md border px-2 py-1 text-xs font-medium transition-colors",
               (lesson._count?.quizzes ?? 0) === 0
-                ? "border-amber-300 bg-amber-50 text-amber-700 hover:bg-amber-100"
+                ? "border-amber-300 bg-amber-50 text-amber-700 dark:bg-amber-500/10 dark:text-amber-300 hover:bg-amber-100"
                 : "border-input bg-background hover:bg-muted"
             )}
           >
@@ -300,7 +300,7 @@ function ModulePanel({
   return (
     <AccordionItem
       value={module.id}
-      className="mb-3 rounded-xl border bg-white px-3"
+      className="mb-3 rounded-xl border border-border bg-card px-3"
     >
       <div className="flex items-start gap-1">
         <div className="min-w-0 flex-1">
@@ -617,7 +617,7 @@ function CourseContent() {
               className="size-12 shrink-0 rounded-lg object-cover"
             />
           ) : (
-            <span className="flex size-12 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-indigo-500 to-purple-500 text-white">
+            <span className="flex size-12 shrink-0 items-center justify-center rounded-lg bg-brand-gradient text-white">
               <BookOpen className="size-6" />
             </span>
           )}
@@ -635,8 +635,8 @@ function CourseContent() {
                   variant="secondary"
                   className={cn(
                     course.courseType === "BATCH"
-                      ? "bg-violet-100 text-violet-700"
-                      : "bg-blue-100 text-blue-700"
+                      ? "bg-primary/10 text-primary"
+                      : "bg-blue-100 text-blue-700 dark:bg-blue-500/15 dark:text-blue-300"
                   )}
                 >
                   {course.courseType}

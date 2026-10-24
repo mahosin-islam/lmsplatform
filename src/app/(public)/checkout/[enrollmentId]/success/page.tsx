@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { useQuery } from "@tanstack/react-query";
-import { CheckCircle2, Clock, Loader2, Wallet } from "lucide-react";
+import { CheckCircle2, Clock, Wallet } from "lucide-react";
 
 import { apiFetch } from "@/lib/api";
 import { useAuth } from "@/lib/auth-context";
@@ -88,7 +88,7 @@ export default function PaymentSuccessPage() {
   return (
     <div className="mx-auto max-w-xl px-4 py-16 sm:px-6">
       <div className="flex flex-col items-center text-center">
-        <span className="inline-flex size-16 items-center justify-center rounded-full bg-emerald-100 text-emerald-600">
+        <span className="inline-flex size-16 items-center justify-center rounded-full bg-emerald-100 text-emerald-600 dark:bg-emerald-500/15 dark:text-emerald-300">
           <CheckCircle2 className="size-9" />
         </span>
         <h1 className="mt-5 text-2xl font-bold tracking-tight">

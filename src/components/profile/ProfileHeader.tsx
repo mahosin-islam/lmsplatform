@@ -27,7 +27,7 @@ export function ProfileHeader({
 
   return (
     <Card className="overflow-hidden">
-      <div className="h-20 bg-gradient-to-r from-indigo-500 via-purple-500 to-violet-500" />
+      <div className="h-20 bg-brand-gradient" />
       <CardContent className="relative p-6">
         <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-end">
           <div className="relative -mt-14">
@@ -35,7 +35,7 @@ export function ProfileHeader({
               {user.avatar ? (
                 <AvatarImage src={user.avatar} alt={user.name} />
               ) : null}
-              <AvatarFallback className="bg-gradient-to-br from-indigo-500 to-purple-600 text-2xl font-bold text-white">
+              <AvatarFallback className="bg-brand-gradient text-2xl font-bold text-white">
                 {getInitials(user.name)}
               </AvatarFallback>
             </Avatar>
@@ -61,8 +61,8 @@ export function ProfileHeader({
               <Badge
                 className={
                   isAdmin
-                    ? "bg-purple-100 text-purple-700"
-                    : "bg-blue-100 text-blue-700"
+                    ? "bg-brand-teal/10 text-brand-teal-strong"
+                    : "bg-blue-100 text-blue-700 dark:bg-blue-500/15 dark:text-blue-300"
                 }
               >
                 {isAdmin ? (

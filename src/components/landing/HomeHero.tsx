@@ -4,12 +4,12 @@ import heroImg from "../../../public/undraw_online-learning_tgmv.svg";
 import Link from "next/link";
 import { ArrowRight, Play, Sparkles } from "lucide-react";
 
-export function HeroSlider() {
+export function HomeHero() {
   return (
-    <section className="relative overflow-hidden bg-gradient-to-br from-indigo-50 via-white to-purple-50">
+    <section className="relative overflow-hidden bg-background">
       {/* Soft background blobs */}
-      <div className="absolute -top-20 -left-20 h-64 w-64 rounded-full bg-indigo-200/40 blur-3xl" />
-      <div className="absolute -bottom-20 -right-20 h-64 w-64 rounded-full bg-purple-200/40 blur-3xl" />
+      <div className="absolute -top-20 -left-20 h-64 w-64 rounded-full bg-primary/5 blur-3xl" />
+      <div className="absolute -bottom-20 -right-20 h-64 w-64 rounded-full bg-primary/5 blur-3xl" />
 
       {/* ↓↓↓ Height কমানোর মূল পরিবর্তন — py কমিয়েছি ↓↓↓ */}
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8 md:py-10 lg:py-12">
@@ -18,23 +18,23 @@ export function HeroSlider() {
           {/* ─── LEFT: Content ─── */}
           <div className="text-center lg:text-left">
             {/* Badge */}
-            <span className="inline-flex items-center gap-2 rounded-full border border-indigo-200 bg-white px-4 py-1.5 text-xs font-medium text-indigo-700 shadow-sm sm:text-sm">
+            <span className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5 text-xs font-medium text-primary shadow-sm sm:text-sm">
               <Sparkles className="size-3.5" />
               Bangladesh&apos;s #1 English Learning Platform
             </span>
 
             {/* Title */}
-            <h1 className="mt-4 text-3xl font-bold leading-tight text-slate-900 sm:text-4xl md:text-5xl lg:text-5xl xl:text-6xl">
+            <h1 className="mt-4 text-4xl leading-tight font-bold tracking-tight text-foreground sm:text-5xl md:text-6xl">
               Spoken English
               <br />
               With{" "}
-              <span className="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+              <span className="text-primary">
                 Confidence
               </span>
             </h1>
 
             {/* Subtitle */}
-            <p className="mx-auto mt-4 max-w-xl text-sm leading-relaxed text-slate-600 sm:text-base md:text-lg lg:mx-0">
+            <p className="mx-auto mt-3 max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg lg:mx-0">
               Learn English from expert teachers with live interactive
               classes, self-paced courses, and real-world practice. From
               grammar to spoken fluency — we&apos;ve got you covered.
@@ -44,7 +44,7 @@ export function HeroSlider() {
             <div className="mt-6 flex flex-col items-center gap-3 sm:flex-row sm:justify-center lg:justify-start">
               <Link
                 href="/courses"
-                className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-slate-900 px-6 py-2.5 text-sm font-semibold text-white shadow-lg shadow-slate-900/20 transition-all hover:bg-slate-800 hover:shadow-xl sm:w-auto sm:text-base"
+                className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-primary px-6 py-2.5 text-sm font-semibold text-primary-foreground shadow-sm transition-all hover:bg-primary/90 sm:w-auto sm:text-base"
               >
                 Browse Courses
                 <ArrowRight className="size-4" />
@@ -52,7 +52,7 @@ export function HeroSlider() {
 
               <Link
                 href="/courses"
-                className="inline-flex w-full items-center justify-center gap-2 rounded-lg border border-slate-300 bg-white px-6 py-2.5 text-sm font-semibold text-slate-700 transition-all hover:border-slate-400 hover:bg-slate-50 sm:w-auto sm:text-base"
+                className="inline-flex w-full items-center justify-center gap-2 rounded-lg border border-border bg-card px-6 py-2.5 text-sm font-semibold text-foreground transition-all hover:bg-muted sm:w-auto sm:text-base"
               >
                 <Play className="size-4" />
                 Start Free
@@ -60,7 +60,7 @@ export function HeroSlider() {
             </div>
 
             {/* Small trust signals */}
-            <div className="mt-6 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs text-slate-500 sm:text-sm lg:justify-start">
+            <div className="mt-6 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs text-muted-foreground sm:text-sm lg:justify-start">
               <div className="flex items-center gap-1.5">
                 <span className="text-base">✅</span>
                 Lifetime access

@@ -129,7 +129,7 @@ export function ManageCertificatesDialog({
                     {batch.certificateUnlocked ? (
                       <Badge
                         variant="outline"
-                        className="border-green-300 bg-green-50 text-green-700"
+                        className="border-green-300 bg-green-50 text-green-700 dark:bg-green-500/10 dark:text-green-300"
                       >
                         <CheckCircle2 className="size-3.5 mr-1.5" />
                         Certificate Unlocked
@@ -138,7 +138,7 @@ export function ManageCertificatesDialog({
                       <Button
                         variant="outline"
                         size="sm"
-                        className="border-green-300 bg-green-50 text-green-700 hover:bg-green-100"
+                        className="border-green-300 bg-green-50 text-green-700 dark:bg-green-500/10 dark:text-green-300 hover:bg-green-100"
                         onClick={() => setConfirmBatch(batch)}
                       >
                         <Unlock className="size-4 mr-2" />

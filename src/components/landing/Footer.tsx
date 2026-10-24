@@ -38,21 +38,21 @@ function GithubIcon({ className }: IconProps) {
 const QUICK_LINKS = [
   { label: "Home", href: "/" },
   { label: "Courses", href: "/courses" },
+  { label: "Live Batches", href: "/courses?courseType=BATCH" },
   { label: "Dashboard", href: "/learner/dashboard" },
 ];
 
 const COURSE_LINKS = [
   { label: "All Courses", href: "/courses" },
-  { label: "Live Batches", href: "/courses?courseType=BATCH" },
   { label: "Self-Paced", href: "/courses?courseType=FIXED" },
-  { label: "Free Courses", href: "/courses" },
+  { label: "Live Batches", href: "/courses?courseType=BATCH" },
+  { label: "Free Courses", href: "/courses?price=free" },
 ];
 
 const SUPPORT_LINKS = [
-  { label: "Help", href: "#" },
-  { label: "Contact", href: "#" },
-  { label: "FAQ", href: "#" },
-  { label: "Terms", href: "#" },
+  { label: "FAQ", href: "/#faq" },
+  { label: "Contact", href: "tel:+8801777308777" },
+  { label: "My Certificates", href: "/learner/certificates" },
 ];
 
 const SOCIAL_LINKS = [
@@ -71,7 +71,7 @@ function LinkColumn({
 }) {
   return (
     <div>
-      <h4 className="text-sm font-semibold uppercase tracking-wide text-white">
+      <h4 className="text-sm font-semibold tracking-wider text-white uppercase">
         {title}
       </h4>
       <ul className="mt-4 space-y-3">
@@ -79,7 +79,7 @@ function LinkColumn({
           <li key={link.label}>
             <Link
               href={link.href}
-              className="text-sm text-slate-400 transition-colors hover:text-white"
+              className="text-sm text-muted-foreground transition-colors hover:text-white"
             >
               {link.label}
             </Link>
@@ -93,16 +93,18 @@ function LinkColumn({
 export function Footer() {
   return (
     <footer className="bg-slate-900 text-slate-300">
-      <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
-        <div className="flex flex-col items-center gap-4 border-b border-slate-800 pb-10 text-center sm:flex-row sm:items-center sm:justify-between sm:text-left">
+      <div className="page-container py-12 md:py-16">
+        <div className="flex flex-col items-center gap-4 border-b border-white/10 pb-10 text-center sm:flex-row sm:items-center sm:justify-between sm:text-left">
           <div>
             <div className="flex items-center justify-center gap-2 sm:justify-start">
-              <span className="inline-flex size-9 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-600 to-purple-600 text-white">
+              <span className="inline-flex size-9 items-center justify-center rounded-xl bg-primary text-primary-foreground">
                 <GraduationCap className="size-5" />
               </span>
-              <span className="text-lg font-bold text-white">LMS Platform</span>
+              <span className="text-lg font-bold tracking-tight text-white">
+                LMS Platform
+              </span>
             </div>
-            <p className="mt-2 text-sm text-slate-400">
+            <p className="mt-2 text-sm text-muted-foreground">
               Learning Management System
             </p>
           </div>
@@ -115,7 +117,7 @@ export function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={label}
-                className="inline-flex size-10 items-center justify-center rounded-full bg-slate-800 text-slate-400 transition-all hover:-translate-y-0.5 hover:bg-gradient-to-br hover:from-indigo-600 hover:to-purple-600 hover:text-white"
+                className="inline-flex size-10 items-center justify-center rounded-full bg-white/10 text-slate-300 transition-all hover:-translate-y-0.5 hover:bg-primary hover:text-white"
               >
                 <Icon className="size-4" />
               </a>
@@ -128,10 +130,10 @@ export function Footer() {
           <LinkColumn title="Courses" links={COURSE_LINKS} />
           <LinkColumn title="Support" links={SUPPORT_LINKS} />
           <div>
-            <h4 className="text-sm font-semibold uppercase tracking-wide text-white">
+            <h4 className="text-sm font-semibold tracking-wider text-white uppercase">
               Connect
             </h4>
-            <p className="mt-4 text-sm leading-relaxed text-slate-400">
+            <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
               Follow us on social media for tips, updates and new course
               announcements.
             </p>
@@ -143,7 +145,7 @@ export function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={label}
-                  className="inline-flex size-9 items-center justify-center rounded-full bg-slate-800 text-slate-400 transition-colors hover:bg-indigo-600 hover:text-white"
+                  className="inline-flex size-9 items-center justify-center rounded-full bg-white/10 text-slate-300 transition-colors hover:bg-primary hover:text-white"
                 >
                   <Icon className="size-4" />
                 </a>
@@ -153,9 +155,9 @@ export function Footer() {
         </div>
       </div>
 
-      <div className="border-t border-slate-800 py-6">
-        <p className="text-center text-sm text-slate-500">
-          © 2026 LMS Platform. All rights reserved.
+      <div className="border-t border-white/10 py-6">
+        <p className="text-center text-sm text-muted-foreground">
+          © {new Date().getFullYear()} LMS Platform. All rights reserved.
         </p>
       </div>
     </footer>

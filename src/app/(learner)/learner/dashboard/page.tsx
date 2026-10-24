@@ -48,7 +48,7 @@ const NOTIFICATION_META: Record<
   { icon: LucideIcon; bg: string }
 > = {
   NEW_LESSON: { icon: BookOpen, bg: "bg-blue-500" },
-  NEW_ASSIGNMENT: { icon: ClipboardList, bg: "bg-purple-500" },
+  NEW_ASSIGNMENT: { icon: ClipboardList, bg: "bg-brand-teal/50" },
   NEW_LIVE_CLASS: { icon: Video, bg: "bg-red-500" },
   ANNOUNCEMENT: { icon: Megaphone, bg: "bg-amber-500" },
   COURSE_COMPLETED: { icon: GraduationCap, bg: "bg-emerald-500" },
@@ -85,8 +85,8 @@ function StatCard({
       <CardContent className="flex items-start justify-between p-4">
         <div>
           <p className="text-3xl font-bold">{value}</p>
-          <p className="mt-1 text-sm font-medium text-slate-700">{label}</p>
-          <p className="text-xs text-slate-500">{sub}</p>
+          <p className="mt-1 text-sm font-medium text-foreground">{label}</p>
+          <p className="text-xs text-muted-foreground">{sub}</p>
         </div>
         <span
           className={cn(
@@ -129,7 +129,7 @@ function SectionHeader({
         {linkHref && linkLabel ? (
           <Link
             href={linkHref}
-            className="flex items-center gap-1 text-sm font-medium text-indigo-600 hover:underline"
+            className="flex items-center gap-1 text-sm font-medium text-primary hover:underline"
           >
             <ArrowRight className="size-4" />
             {linkLabel}
@@ -220,7 +220,7 @@ export default function LearnerDashboardPage() {
     return (
       <div className="rounded-xl border border-dashed p-12 text-center">
         <p className="font-medium">Couldn&apos;t load your dashboard</p>
-        <p className="mt-1 text-sm text-slate-500">
+        <p className="mt-1 text-sm text-muted-foreground">
           {dashboardQuery.error instanceof Error
             ? dashboardQuery.error.message
             : "Please try again."}
@@ -242,17 +242,17 @@ export default function LearnerDashboardPage() {
 
   return (
     <div className="space-y-8">
-      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 p-6 text-white shadow-lg">
+      <div className="relative overflow-hidden rounded-2xl bg-brand-gradient p-6 text-white shadow-lg">
         <div className="pointer-events-none absolute -right-10 -top-12 size-40 rounded-full bg-white/10 blur-2xl" />
         <div className="pointer-events-none absolute -bottom-16 right-24 size-40 rounded-full bg-white/10 blur-2xl" />
         <p className="relative text-2xl font-bold tracking-tight">
           Hi, {(user?.name ?? "there").split(" ")[0]}! 👋
         </p>
-        <p className="relative mt-1 text-sm text-indigo-100">
+        <p className="relative mt-1 text-sm text-white/85">
           Ready to continue learning?
         </p>
         <div className="relative mt-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-          <span className="flex items-center gap-2 text-xs text-indigo-100">
+          <span className="flex items-center gap-2 text-xs text-white/85">
             <Calendar className="size-4" />
             Today is {format(new Date(), "EEEE, MMMM d, yyyy")}
           </span>
@@ -260,7 +260,7 @@ export default function LearnerDashboardPage() {
             variant="secondary"
             nativeButton={false}
             render={<Link href="/learner/courses" />}
-            className="bg-white text-indigo-600 hover:bg-indigo-50"
+            className="bg-white text-primary hover:bg-primary/10"
           >
             Browse Courses
             <ArrowRight className="size-4" />
@@ -275,7 +275,7 @@ export default function LearnerDashboardPage() {
           label="Enrolled"
           sub={`${stats.active} active`}
           href="/learner/courses"
-          iconBg="bg-indigo-500"
+          iconBg="bg-primary/100"
         />
         <StatCard
           icon={PlayCircle}
@@ -312,7 +312,7 @@ export default function LearnerDashboardPage() {
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {recentEnrollments.slice(0, 3).map((enroll) => (
               <Card key={enroll.id} className="overflow-hidden">
-                <div className="relative aspect-video w-full bg-gradient-to-br from-indigo-100 to-purple-100">
+                <div className="relative aspect-video w-full bg-primary/10">
                   {enroll.course.thumbnail ? (
                     // eslint-disable-next-line @next/next/no-img-element
                     <img
@@ -322,11 +322,11 @@ export default function LearnerDashboardPage() {
                     />
                   ) : (
                     <div className="flex size-full items-center justify-center">
-                      <BookOpen className="size-8 text-indigo-300" />
+                      <BookOpen className="size-8 text-primary/40" />
                     </div>
                   )}
                   {enroll.batch ? (
-                    <Badge className="absolute left-2 top-2 bg-white/90 text-indigo-700">
+                    <Badge className="absolute left-2 top-2 bg-white/90 text-primary">
                       Batch {enroll.batch.batchNumber}
                     </Badge>
                   ) : null}
@@ -336,7 +336,7 @@ export default function LearnerDashboardPage() {
                     {enroll.course.title}
                   </p>
                   <div>
-                    <div className="flex items-center justify-between text-xs text-slate-500">
+                    <div className="flex items-center justify-between text-xs text-muted-foreground">
                       <span>
                         {enroll.status === "COMPLETED"
                           ? "Completed"
@@ -365,9 +365,9 @@ nativeButton={false}
         </section>
       ) : (
         <section className="rounded-xl border border-dashed p-10 text-center">
-          <BookOpen className="mx-auto size-10 text-indigo-300" />
+          <BookOpen className="mx-auto size-10 text-primary/40" />
           <p className="mt-3 font-medium">Start your learning journey</p>
-          <p className="mt-1 text-sm text-slate-500">
+          <p className="mt-1 text-sm text-muted-foreground">
             Enroll in a course to see your lessons here.
           </p>
           <Button className="mt-4" nativeButton={false} render={<Link href="/learner/courses" />}>
@@ -400,7 +400,7 @@ nativeButton={false}
                     key={session.id}
                     className={cn(
                       "rounded-xl border bg-card p-4",
-                      live ? "border-red-200 bg-red-50/40" : undefined
+                      live ? "border-red-200 bg-red-50/40 dark:bg-red-500/10" : undefined
                     )}
                   >
                     <div className="flex items-center gap-2">
@@ -413,14 +413,14 @@ nativeButton={false}
                           Live Now
                         </Badge>
                       ) : (
-                        <span className="flex items-center gap-1.5 text-xs font-semibold text-indigo-600">
+                        <span className="flex items-center gap-1.5 text-xs font-semibold text-primary">
                           <Clock className="size-3.5" />
                           {dayLabel} · {format(start, "h:mm a")}
                         </span>
                       )}
                     </div>
                     <p className="mt-2 font-semibold">{session.title}</p>
-                    <p className="mt-1 text-xs text-slate-500">
+                    <p className="mt-1 text-xs text-muted-foreground">
                       {live
                         ? "The class is happening now — join in!"
                         : `Starts in ${formatDistanceToNow(start)}`}
@@ -469,14 +469,14 @@ nativeButton={false}
                     key={submission.id}
                     className="flex items-center gap-3 rounded-xl border bg-card p-3"
                   >
-                    <span className="inline-flex size-10 shrink-0 items-center justify-center rounded-xl bg-purple-100 text-purple-600">
+                    <span className="inline-flex size-10 shrink-0 items-center justify-center rounded-xl bg-brand-teal/10 text-brand-teal-strong">
                       <ClipboardList className="size-5" />
                     </span>
                     <div className="min-w-0 flex-1">
                       <p className="truncate text-sm font-medium">
                         {assignment?.title ?? "Assignment"}
                       </p>
-                      <p className="truncate text-xs text-slate-500">
+                      <p className="truncate text-xs text-muted-foreground">
                         {assignment?.module?.title ?? ""}
                         {assignment?.module?.title ? " · " : ""}
                         {formatDistanceToNow(new Date(submission.submittedAt), {
@@ -487,10 +487,10 @@ nativeButton={false}
                     <div className="shrink-0 text-right">
                       {submission.status === "GRADED" ? (
                         <>
-                          <Badge className="bg-emerald-100 text-emerald-700">
+                          <Badge className="bg-emerald-100 text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-300">
                             Graded
                           </Badge>
-                          <p className="mt-1 text-xs font-medium text-slate-600">
+                          <p className="mt-1 text-xs font-medium text-muted-foreground">
                             {submission.marks}/{assignment?.totalMarks}
                           </p>
                         </>
@@ -542,7 +542,7 @@ nativeButton={false}
                     <span
                       className={cn(
                         "mt-0.5 inline-flex size-9 shrink-0 items-center justify-center rounded-full text-white",
-                        meta?.bg ?? "bg-slate-500"
+                        meta?.bg ?? "bg-background0"
                       )}
                     >
                       <Icon className="size-4" />
@@ -551,17 +551,17 @@ nativeButton={false}
                       <p className="truncate text-sm font-medium">
                         {notification.title}
                       </p>
-                      <p className="mt-0.5 line-clamp-2 text-xs text-slate-500">
+                      <p className="mt-0.5 line-clamp-2 text-xs text-muted-foreground">
                         {notification.message}
                       </p>
                     </div>
                     <div className="flex shrink-0 items-center gap-2">
-                      <span className="whitespace-nowrap text-xs text-slate-400">
+                      <span className="whitespace-nowrap text-xs text-muted-foreground">
                         {formatDistanceToNow(new Date(notification.createdAt), {
                           addSuffix: true,
                         })}
                       </span>
-                      <span className="size-2 rounded-full bg-indigo-500" />
+                      <span className="size-2 rounded-full bg-primary/100" />
                     </div>
                   </div>
                 );

@@ -211,7 +211,7 @@ export function QuizPlayer({ lessonId, onComplete }: QuizPlayerProps) {
     return (
       <Card className="border-dashed">
         <CardContent className="flex flex-col items-center justify-center gap-3 py-12 text-center">
-          <span className="inline-flex size-14 items-center justify-center rounded-2xl bg-purple-100 text-purple-600">
+          <span className="inline-flex size-14 items-center justify-center rounded-2xl bg-brand-teal/10 text-brand-teal-strong">
             <HelpCircle className="size-7" />
           </span>
           <div>

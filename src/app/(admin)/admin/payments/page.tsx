@@ -214,7 +214,7 @@ function OrdersTable({
                     <Button
                       variant="outline"
                       size="xs"
-                      className="border-emerald-200 bg-emerald-50 text-emerald-700 hover:bg-emerald-100 hover:text-emerald-800"
+                      className="border-emerald-200 bg-emerald-50 text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-300 hover:bg-emerald-100 hover:text-emerald-800"
                       onClick={() => onApprove(order)}
                     >
                       <CheckCircle2 className="size-3.5" />
@@ -223,7 +223,7 @@ function OrdersTable({
                     <Button
                       variant="outline"
                       size="xs"
-                      className="border-red-200 bg-red-50 text-red-600 hover:bg-red-100 hover:text-red-700"
+                      className="border-red-200 bg-red-50 text-red-600 dark:bg-red-500/10 dark:text-red-300 hover:bg-red-100 hover:text-red-700"
                       onClick={() => onReject(order)}
                     >
                       <XCircle className="size-3.5" />
@@ -454,25 +454,25 @@ function PaymentsContent() {
       label: "Total Revenue",
       value: stats ? formatPrice(stats.totalEarning) : "—",
       icon: Banknote,
-      tint: "bg-emerald-100 text-emerald-600",
+      tint: "bg-emerald-100 text-emerald-600 dark:bg-emerald-500/15 dark:text-emerald-300",
     },
     {
       label: "Pending",
       value: stats ? stats.pendingPayments : "—",
       icon: Clock3,
-      tint: "bg-amber-100 text-amber-600",
+      tint: "bg-amber-100 text-amber-600 dark:bg-amber-500/15 dark:text-amber-300",
     },
     {
       label: "Successful",
       value: stats ? stats.successfulPayments : "—",
       icon: CheckCircle2,
-      tint: "bg-blue-100 text-blue-600",
+      tint: "bg-blue-100 text-blue-600 dark:bg-blue-500/15 dark:text-blue-300",
     },
     {
       label: "Failed",
       value: stats ? stats.failedPayments : "—",
       icon: XCircle,
-      tint: "bg-red-100 text-red-600",
+      tint: "bg-red-100 text-red-600 dark:bg-red-500/15 dark:text-red-300",
     },
   ];
 

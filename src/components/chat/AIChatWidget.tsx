@@ -92,8 +92,8 @@ export function AIChatWidget() {
   return (
     <>
       {open ? (
-        <div className="fixed right-4 bottom-4 z-50 flex h-[min(560px,calc(100vh-2rem))] w-[min(380px,calc(100vw-2rem))] flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl">
-          <div className="flex items-center justify-between gap-3 bg-gradient-to-r from-indigo-600 to-purple-600 px-4 py-3 text-white">
+        <div className="fixed right-4 bottom-4 z-50 flex h-[min(560px,calc(100vh-2rem))] w-[min(380px,calc(100vw-2rem))] flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-2xl">
+          <div className="flex items-center justify-between gap-3 bg-brand-gradient px-4 py-3 text-white">
             <div className="flex items-center gap-2.5">
               <span className="inline-flex size-8 items-center justify-center rounded-full bg-white/15">
                 <Sparkles className="size-4" />
@@ -131,8 +131,8 @@ export function AIChatWidget() {
                   className={cn(
                     "max-w-[85%] rounded-2xl px-3.5 py-2.5 text-sm leading-relaxed",
                     message.role === "user"
-                      ? "rounded-br-sm bg-indigo-600 text-white"
-                      : "rounded-bl-sm border border-slate-200 bg-slate-50 text-slate-800"
+                      ? "rounded-br-sm bg-primary text-primary-foreground"
+                      : "rounded-bl-sm border border-border bg-background text-foreground"
                   )}
                 >
                   <span className="whitespace-pre-wrap">{message.content}</span>
@@ -141,7 +141,7 @@ export function AIChatWidget() {
             ))}
             {loading ? (
               <div className="flex w-full justify-start">
-                <div className="flex items-center gap-2 rounded-2xl rounded-bl-sm border border-slate-200 bg-slate-50 px-3.5 py-2.5 text-sm text-slate-500">
+                <div className="flex items-center gap-2 rounded-2xl rounded-bl-sm border border-border bg-background px-3.5 py-2.5 text-sm text-muted-foreground">
                   <Loader2 className="size-4 animate-spin" />
                   Thinking...
                 </div>
@@ -154,14 +154,14 @@ export function AIChatWidget() {
               event.preventDefault();
               void send();
             }}
-            className="flex items-center gap-2 border-t border-slate-200 p-3"
+            className="flex items-center gap-2 border-t border-border p-3"
           >
             <input
               value={input}
               onChange={(event) => setInput(event.target.value)}
               placeholder="Ask me anything..."
               aria-label="Chat message"
-              className="h-10 flex-1 rounded-full border border-slate-200 bg-slate-50 px-4 text-sm outline-none transition-colors placeholder:text-slate-400 focus:border-indigo-400 focus:bg-white"
+              className="h-10 flex-1 rounded-full border border-border bg-background px-4 text-sm outline-none transition-colors placeholder:text-muted-foreground focus:border-primary focus:bg-card"
             />
             <Button
               type="submit"
@@ -184,7 +184,7 @@ export function AIChatWidget() {
         type="button"
         onClick={() => setOpen((value) => !value)}
         aria-label="Open AI chat assistant"
-        className="fixed right-4 bottom-4 z-50 inline-flex size-14 items-center justify-center rounded-full bg-gradient-to-br from-indigo-600 to-purple-600 text-white shadow-lg shadow-indigo-500/30 transition-transform hover:scale-105"
+        className="fixed right-4 bottom-4 z-50 inline-flex size-14 items-center justify-center rounded-full bg-brand-gradient text-white shadow-lg shadow-primary/30 transition-transform hover:scale-105"
       >
         {open ? (
           <X className="size-6" />

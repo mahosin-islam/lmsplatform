@@ -435,7 +435,7 @@ export default function LessonQuizPage() {
     return (
       <Card className="border-amber-200 bg-amber-50">
         <CardContent className="flex flex-col items-center justify-center gap-3 py-12 text-center">
-          <span className="inline-flex size-12 items-center justify-center rounded-full bg-amber-100 text-amber-600">
+          <span className="inline-flex size-12 items-center justify-center rounded-full bg-amber-100 text-amber-600 dark:bg-amber-500/15 dark:text-amber-300">
             <AlertCircle className="size-6" />
           </span>
           <div>
@@ -505,7 +505,7 @@ export default function LessonQuizPage() {
             <h1 className="truncate text-xl font-bold tracking-tight sm:text-2xl">
               {lesson.title}
             </h1>
-            <Badge variant="secondary" className="bg-purple-100 text-purple-700">
+            <Badge variant="secondary" className="bg-brand-teal/10 text-brand-teal-strong">
               QUIZ
             </Badge>
           </div>
@@ -592,7 +592,7 @@ export default function LessonQuizPage() {
       ) : rows.length === 0 ? (
         <Card className="border-dashed">
           <CardContent className="flex flex-col items-center justify-center gap-3 py-16 text-center">
-            <span className="inline-flex size-14 items-center justify-center rounded-2xl bg-purple-100 text-purple-600">
+            <span className="inline-flex size-14 items-center justify-center rounded-2xl bg-brand-teal/10 text-brand-teal-strong">
               <HelpCircle className="size-7" />
             </span>
             <div>

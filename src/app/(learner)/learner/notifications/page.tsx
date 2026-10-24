@@ -280,7 +280,7 @@ export default function LearnerNotificationsPage() {
       ) : filtered.length === 0 ? (
         <Card className="border-dashed">
           <CardContent className="flex flex-col items-center py-16 text-center">
-            <span className="inline-flex size-14 items-center justify-center rounded-2xl bg-emerald-50 text-emerald-600">
+            <span className="inline-flex size-14 items-center justify-center rounded-2xl bg-emerald-50 text-emerald-600 dark:bg-emerald-500/10 dark:text-emerald-300">
               <CheckCheck className="size-7" />
             </span>
             <p className="mt-4 font-semibold">All caught up!</p>
@@ -303,8 +303,8 @@ export default function LearnerNotificationsPage() {
                 className={cn(
                   "overflow-hidden transition-colors",
                   isUnread
-                    ? "border-blue-200/60 bg-white hover:bg-slate-50"
-                    : "bg-slate-50/50 hover:bg-slate-50"
+                    ? "border-sky-200 bg-card hover:bg-muted/50 dark:border-sky-500/30"
+                    : "bg-background/50 hover:bg-background"
                 )}
               >
                 <CardContent className="p-4">
@@ -378,7 +378,7 @@ export default function LearnerNotificationsPage() {
                     </div>
                     <button
                       type="button"
-                      className="inline-flex size-7 shrink-0 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-slate-200/60 hover:text-foreground"
+                      className="inline-flex size-7 shrink-0 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-muted/60 hover:text-foreground"
                       aria-label="Delete notification"
                       title="Delete"
                       onClick={(event) => {

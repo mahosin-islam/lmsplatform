@@ -36,9 +36,9 @@ const itemVariants: Variants = {
 
 export function StatsSection() {
   return (
-    <section className="border-b border-slate-200 bg-white py-10 md:py-14">
+    <section className="border-b border-border bg-background py-10 md:py-12">
       <motion.div
-        className="mx-auto grid max-w-7xl grid-cols-2 gap-8 px-4 sm:px-6 lg:grid-cols-4 lg:px-8"
+        className="page-container grid grid-cols-2 gap-6 lg:grid-cols-4"
         variants={containerVariants}
         initial="hidden"
         whileInView="visible"
@@ -54,14 +54,16 @@ export function StatsSection() {
             <motion.span
               whileHover={{ rotate: 8, scale: 1.1 }}
               transition={{ type: "spring", stiffness: 300, damping: 15 }}
-              className="inline-flex size-12 items-center justify-center rounded-2xl bg-gradient-to-br from-indigo-600 to-purple-600 text-white shadow-lg shadow-indigo-600/20 group-hover:shadow-indigo-600/40 transition-shadow duration-300"
+              className="inline-flex size-12 items-center justify-center rounded-2xl bg-primary text-primary-foreground shadow-sm transition-shadow duration-300"
             >
               <Icon className="size-6" />
             </motion.span>
-            <p className="mt-3 bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-3xl font-bold text-transparent">
+            <p className="mt-3 text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
               {value}
             </p>
-            <p className="mt-1 text-sm font-medium text-slate-600">{label}</p>
+            <p className="mt-1 text-sm font-medium text-muted-foreground">
+              {label}
+            </p>
           </motion.div>
         ))}
       </motion.div>

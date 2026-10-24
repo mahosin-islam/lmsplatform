@@ -66,30 +66,30 @@ const STATUS_META: Record<
 > = {
   PENDING: {
     label: "Pending",
-    badge: "bg-amber-100 text-amber-700",
-    card: "border-l-4 border-l-amber-500 bg-amber-50/70",
+    badge: "bg-amber-100 text-amber-700 dark:bg-amber-500/15 dark:text-amber-300",
+    card: "border-l-4 border-l-amber-500 bg-amber-50/70 dark:bg-amber-500/10",
   },
   PAID: {
     label: "Paid",
-    badge: "bg-emerald-100 text-emerald-700",
-    card: "border-l-4 border-l-emerald-500 bg-emerald-50/70",
+    badge: "bg-emerald-100 text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-300",
+    card: "border-l-4 border-l-emerald-500 bg-emerald-50/70 dark:bg-emerald-500/10",
   },
   FAILED: {
     label: "Failed",
-    badge: "bg-red-100 text-red-700",
-    card: "border-l-4 border-l-red-500 bg-red-50/70",
+    badge: "bg-red-100 text-red-700 dark:bg-red-500/15 dark:text-red-300",
+    card: "border-l-4 border-l-red-500 bg-red-50/70 dark:bg-red-500/10",
   },
   REFUNDED: {
     label: "Refunded",
-    badge: "bg-slate-200 text-slate-600",
-    card: "border-l-4 border-l-slate-500 bg-slate-50/70",
+    badge: "bg-muted text-muted-foreground",
+    card: "border-l-4 border-l-muted-foreground bg-background/70",
   },
 };
 
 const PROVIDER_META: Record<PaymentProvider, { label: string; badge: string }> = {
-  BKASH: { label: "bKash", badge: "bg-pink-100 text-pink-700" },
-  NAGAD: { label: "Nagad", badge: "bg-orange-100 text-orange-700" },
-  FREE: { label: "Free", badge: "bg-emerald-100 text-emerald-700" },
+  BKASH: { label: "bKash", badge: "bg-pink-100 text-pink-700 dark:bg-pink-500/15 dark:text-pink-300" },
+  NAGAD: { label: "Nagad", badge: "bg-orange-100 text-orange-700 dark:bg-orange-500/15 dark:text-orange-300" },
+  FREE: { label: "Free", badge: "bg-emerald-100 text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-300" },
 };
 
 const STAT_CARDS: Array<{
@@ -374,7 +374,7 @@ function LearnerPaymentsContent() {
 
       {orders.length === 0 ? (
         <div className="rounded-xl border border-dashed p-12 text-center">
-          <span className="inline-flex size-14 items-center justify-center rounded-full bg-slate-100 text-slate-400">
+          <span className="inline-flex size-14 items-center justify-center rounded-full bg-muted text-muted-foreground">
             <CreditCard className="size-7" />
           </span>
           <p className="mt-4 font-medium">No payments yet</p>
@@ -426,7 +426,7 @@ function LearnerPaymentsContent() {
                         className="size-12 shrink-0 rounded-lg border object-cover"
                       />
                     ) : (
-                      <span className="inline-flex size-12 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600 text-white">
+                      <span className="inline-flex size-12 shrink-0 items-center justify-center rounded-lg bg-brand-gradient text-white">
                         <CreditCard className="size-5" />
                       </span>
                     )}

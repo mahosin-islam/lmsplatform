@@ -58,22 +58,22 @@ const STATUS_CONFIG: Record<BatchStatus, StatusConfig> = {
   ACTIVE: {
     label: "ACTIVE",
     cardClass: "border-green-200 bg-green-50",
-    badgeClass: "bg-green-100 text-green-700",
+    badgeClass: "bg-green-100 text-green-700 dark:bg-green-500/15 dark:text-green-300",
     iconClass: "text-green-600",
     icon: Flame,
   },
   UPCOMING: {
     label: "UPCOMING",
     cardClass: "border-amber-200 bg-amber-50",
-    badgeClass: "bg-amber-100 text-amber-700",
+    badgeClass: "bg-amber-100 text-amber-700 dark:bg-amber-500/15 dark:text-amber-300",
     iconClass: "text-amber-600",
     icon: Clock,
   },
   COMPLETED: {
     label: "COMPLETED",
-    cardClass: "border-gray-200 bg-gray-50",
-    badgeClass: "bg-gray-200 text-gray-700",
-    iconClass: "text-gray-500",
+    cardClass: "border-border bg-background",
+    badgeClass: "bg-muted text-foreground",
+    iconClass: "text-muted-foreground",
     icon: CheckCircle2,
   },
 };
@@ -156,7 +156,7 @@ function BatchCard({
           {batch.certificateUnlocked ? (
             <Badge
               variant="outline"
-              className="border-green-300 bg-green-50 text-green-700"
+              className="border-green-300 bg-green-50 text-green-700 dark:bg-green-500/10 dark:text-green-300"
             >
               <CheckCircle2 className="size-3.5 mr-1.5" />
               Certificate Unlocked
@@ -165,7 +165,7 @@ function BatchCard({
             <Button
               variant="outline"
               size="sm"
-              className="border-green-300 bg-green-50 text-green-700 hover:bg-green-100"
+              className="border-green-300 bg-green-50 text-green-700 dark:bg-green-500/10 dark:text-green-300 hover:bg-green-100"
               onClick={() => onUnlock(batch)}
             >
               <Unlock className="size-4 mr-2" />
@@ -405,7 +405,7 @@ export default function BatchManagementPage() {
               className="size-12 shrink-0 rounded-lg object-cover"
             />
           ) : (
-            <span className="flex size-12 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-indigo-500 to-purple-500 text-white">
+            <span className="flex size-12 shrink-0 items-center justify-center rounded-lg bg-brand-gradient text-white">
               <BookOpen className="size-6" />
             </span>
           )}
@@ -418,7 +418,7 @@ export default function BatchManagementPage() {
               </h1>
             )}
             <div className="mt-1 flex flex-wrap items-center gap-2">
-              <Badge variant="secondary" className="bg-violet-100 text-violet-700">
+              <Badge variant="secondary" className="bg-primary/10 text-primary">
                 BATCH
               </Badge>
               {!isLoading ? (
@@ -496,7 +496,7 @@ export default function BatchManagementPage() {
       ) : !courseQuery.isLoading && course && !isBatchCourse ? (
         <Card className="border-amber-200 bg-amber-50">
           <CardContent className="flex flex-col items-center justify-center gap-3 py-12 text-center">
-            <span className="inline-flex size-12 items-center justify-center rounded-full bg-amber-100 text-amber-600">
+            <span className="inline-flex size-12 items-center justify-center rounded-full bg-amber-100 text-amber-600 dark:bg-amber-500/15 dark:text-amber-300">
               <AlertTriangle className="size-6" />
             </span>
             <div>

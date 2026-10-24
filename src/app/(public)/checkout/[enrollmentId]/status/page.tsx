@@ -93,7 +93,7 @@ export default function PaymentStatusPage() {
     <div className="mx-auto max-w-xl px-4 py-16 sm:px-6">
       {status === "ACTIVE" ? (
         <div className="flex flex-col items-center text-center">
-          <span className="inline-flex size-16 items-center justify-center rounded-full bg-emerald-100 text-emerald-600">
+          <span className="inline-flex size-16 items-center justify-center rounded-full bg-emerald-100 text-emerald-600 dark:bg-emerald-500/15 dark:text-emerald-300">
             <CheckCircle2 className="size-9" />
           </span>
           <h1 className="mt-5 text-2xl font-bold tracking-tight">
@@ -130,7 +130,7 @@ export default function PaymentStatusPage() {
         </div>
       ) : status === "CANCELLED" ? (
         <div className="flex flex-col items-center text-center">
-          <span className="inline-flex size-16 items-center justify-center rounded-full bg-red-100 text-red-600">
+          <span className="inline-flex size-16 items-center justify-center rounded-full bg-red-100 text-red-600 dark:bg-red-500/15 dark:text-red-300">
             <XCircle className="size-9" />
           </span>
           <h1 className="mt-5 text-2xl font-bold tracking-tight">
@@ -161,7 +161,7 @@ export default function PaymentStatusPage() {
         </div>
       ) : (
         <div className="flex flex-col items-center text-center">
-          <span className="inline-flex size-16 items-center justify-center rounded-full bg-amber-100 text-amber-600">
+          <span className="inline-flex size-16 items-center justify-center rounded-full bg-amber-100 text-amber-600 dark:bg-amber-500/15 dark:text-amber-300">
             <Clock className="size-9" />
           </span>
           <h1 className="mt-5 text-2xl font-bold tracking-tight">

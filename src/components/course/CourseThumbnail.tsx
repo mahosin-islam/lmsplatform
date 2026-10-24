@@ -20,12 +20,12 @@ export function CourseThumbnail({
   className,
   badgeClassName,
 }: CourseThumbnailProps) {
-  const label = courseType === "FIXED" ? "SELF-PACED" : "BATCH";
+  const label = courseType === "FIXED" ? "Self-paced" : "Live batch";
 
   return (
     <div
       className={cn(
-        "relative aspect-video w-full overflow-hidden bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500",
+        "relative aspect-[16/9] w-full overflow-hidden bg-muted",
         className
       )}
     >
@@ -35,17 +35,17 @@ export function CourseThumbnail({
           src={src}
           alt={alt}
           loading="lazy"
-          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
         />
       ) : (
-        <div className="flex h-full w-full items-center justify-center">
-          <GraduationCap className="size-12 text-white/70" />
+        <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-primary/10 via-background to-brand-teal/10">
+          <GraduationCap className="size-10 text-primary/40" />
         </div>
       )}
 
       <span
         className={cn(
-          "absolute top-3 right-3 rounded-full bg-black/60 px-2.5 py-1 text-[10px] font-bold tracking-wide text-white uppercase backdrop-blur-sm",
+          "absolute top-3 right-3 rounded-full bg-background/90 px-2.5 py-1 text-[11px] font-semibold text-foreground uppercase backdrop-blur-sm",
           badgeClassName
         )}
       >

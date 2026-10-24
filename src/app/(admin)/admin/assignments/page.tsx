@@ -393,7 +393,7 @@ export default function AssignmentsPage() {
                       {isPast ? (
                         <Badge className="bg-destructive text-white">Past Deadline</Badge>
                       ) : isDueSoon ? (
-                        <Badge className="bg-amber-100 text-amber-700">
+                        <Badge className="bg-amber-100 text-amber-700 dark:bg-amber-500/15 dark:text-amber-300">
                           Due Soon
                         </Badge>
                       ) : null}
@@ -408,7 +408,7 @@ export default function AssignmentsPage() {
                           ? batchMap.get(mod.batchId)
                           : null;
                         return batch ? (
-                          <Badge variant="outline" className="border-indigo-200 text-indigo-600">
+                          <Badge variant="outline" className="border-primary/30 text-primary">
                             Batch {batch.batchNumber}
                             {batch.title ? ` · ${batch.title}` : ""}
                           </Badge>

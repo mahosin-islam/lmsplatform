@@ -1,11 +1,21 @@
 import Link from "next/link";
-import { ArrowRight, BadgeCheck, Download, ShieldCheck, Sparkles } from "lucide-react";
+import {
+  ArrowRight,
+  BadgeCheck,
+  Download,
+  ShieldCheck,
+  Sparkles,
+} from "lucide-react";
+
+import { fetchPublic } from "@/lib/api-server";
+import type { CourseListData } from "@/types";
 
 const BENEFITS = [
   {
     icon: BadgeCheck,
     title: "Unlocks automatically",
-    description: "Hit 100% course progress and your certificate is issued instantly.",
+    description:
+      "Reach 100% course progress and your certificate is issued instantly.",
   },
   {
     icon: ShieldCheck,
@@ -17,40 +27,54 @@ const BENEFITS = [
     icon: Download,
     title: "Download & share",
     description:
-      "Save it as a PDF and add it straight to your CV, LinkedIn, or portfolio.",
+      "Save it as a PDF and add it to your CV, LinkedIn profile or portfolio.",
   },
 ];
 
-export function CertificateSection() {
+async function loadPreview() {
+  try {
+    const data = await fetchPublic<CourseListData>("/courses?status=PUBLISHED");
+    const course = data.courses?.[0];
+    return {
+      courseTitle: course?.title ?? "Course completion",
+      instructor: course?.admin?.name ?? null,
+    };
+  } catch {
+    return { courseTitle: "Course completion", instructor: null };
+  }
+}
+
+export async function CertificateSection() {
+  const preview = await loadPreview();
+
   return (
-    <section className="bg-slate-50 py-16 md:py-24">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
+    <section className="section-y bg-background">
+      <div className="page-container">
+        <div className="grid items-center gap-8 lg:grid-cols-2 lg:gap-12">
           <div>
-            <p className="inline-flex items-center gap-2 text-sm font-semibold text-indigo-600">
-              🎓 Verified Certificates
-            </p>
-            <h2 className="mt-2 text-3xl font-bold text-slate-900 md:text-4xl">
+            <span className="inline-flex items-center gap-2 rounded-full border border-brand-teal/25 bg-brand-teal/10 px-3 py-1 text-xs font-semibold text-brand-teal-strong">
+              <Sparkles className="size-3.5" />
+              Verified certificates
+            </span>
+            <h2 className="mt-4 text-2xl leading-tight font-bold tracking-tight text-foreground sm:text-3xl md:text-4xl">
               Your achievement,{" "}
-              <span className="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
-                officially proven
-              </span>
+              <span className="text-primary">officially proven</span>
             </h2>
-            <p className="mt-4 text-sm leading-relaxed text-slate-600 md:text-base">
+            <p className="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base">
               Finish a course and you do not just get a PDF — you get a
               tamper-proof credential with a verification code that employers
               and peers can confirm in seconds.
             </p>
 
-            <ul className="mt-8 space-y-5">
+            <ul className="mt-6 space-y-4">
               {BENEFITS.map(({ icon: Icon, title, description }) => (
                 <li key={title} className="flex gap-4">
-                  <span className="inline-flex size-10 shrink-0 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600">
+                  <span className="inline-flex size-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
                     <Icon className="size-5" />
                   </span>
                   <div>
-                    <p className="font-bold text-slate-900">{title}</p>
-                    <p className="mt-0.5 text-sm leading-relaxed text-slate-600">
+                    <p className="font-semibold text-foreground">{title}</p>
+                    <p className="mt-0.5 text-sm leading-relaxed text-muted-foreground">
                       {description}
                     </p>
                   </div>
@@ -60,75 +84,66 @@ export function CertificateSection() {
 
             <Link
               href="/courses"
-              className="mt-9 inline-flex items-center gap-2 rounded-xl bg-slate-900 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-slate-900/20 transition-all hover:bg-slate-800"
+              className="mt-6 inline-flex h-11 items-center gap-2 rounded-xl bg-primary px-6 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90"
             >
               Start earning certificates
               <ArrowRight className="size-4" />
             </Link>
           </div>
 
-          <div className="relative mx-auto w-full max-w-lg">
-            <div
-              aria-hidden="true"
-              className="absolute -top-8 -left-8 size-40 rounded-full bg-indigo-200/40 blur-3xl"
-            />
-            <div
-              aria-hidden="true"
-              className="absolute -right-6 -bottom-8 size-44 rounded-full bg-purple-200/40 blur-3xl"
-            />
-
-            <div className="relative rounded-3xl bg-gradient-to-br from-indigo-600 via-purple-600 to-purple-700 p-2 shadow-2xl shadow-indigo-600/25">
-              <div className="rounded-[1.25rem] border border-white/70 bg-white px-6 py-8 text-center sm:px-9 sm:py-10">
-                <span className="inline-flex items-center gap-2 rounded-full bg-indigo-50 px-3 py-1 text-[11px] font-bold tracking-widest text-indigo-600 uppercase">
+          <div className="mx-auto w-full max-w-md">
+            <div className="rounded-2xl border border-border bg-card p-2 shadow-sm">
+              <div className="rounded-xl border border-dashed border-border bg-background px-5 py-7 text-center sm:px-7 sm:py-8">
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-3 py-1 text-[10px] font-bold tracking-widest text-primary uppercase">
                   <Sparkles className="size-3" />
                   LMS Platform
                 </span>
 
-                <h3 className="mt-4 font-serif text-2xl font-bold tracking-wide text-slate-900 sm:text-3xl">
+                <h3 className="mt-4 text-lg font-bold tracking-tight text-foreground sm:text-xl">
                   Certificate of Completion
                 </h3>
-                <p className="mt-3 text-xs text-slate-500">
+                <p className="mt-3 text-[11px] text-muted-foreground">
                   This certificate is proudly presented to
                 </p>
-                <p className="mt-2 border-b border-dashed border-slate-300 pb-1 text-lg font-bold text-slate-800">
+                <p className="mt-2 border-b border-dashed border-border pb-1 text-base font-bold text-foreground">
                   Your Name Here
                 </p>
-                <p className="mt-3 text-xs text-slate-500">
+                <p className="mt-3 text-[11px] text-muted-foreground">
                   for successfully completing
                 </p>
-                <p className="mt-1 text-sm font-semibold text-indigo-600">
-                  Spoken English — Complete Course
+                <p className="mt-1 line-clamp-1 text-sm font-semibold text-primary">
+                  {preview.courseTitle}
                 </p>
 
-                <div className="mt-7 flex items-end justify-between gap-4">
-                  <div className="flex-1">
-                    <p className="text-sm font-bold text-slate-800">
-                      Lead Instructor
+                <div className="mt-6 flex items-end justify-between gap-4">
+                  <div className="flex-1 text-left">
+                    <p className="truncate text-xs font-bold text-foreground">
+                      {preview.instructor ?? "Course instructor"}
                     </p>
-                    <p className="mt-1 border-t border-slate-300 pt-1 text-[10px] tracking-wider text-slate-400 uppercase">
-                      Signature
+                    <p className="mt-1 border-t border-border pt-1 text-[9px] tracking-wider text-muted-foreground uppercase">
+                      Instructor
                     </p>
                   </div>
 
-                  <span className="flex size-16 shrink-0 flex-col items-center justify-center rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 text-white shadow-lg">
-                    <BadgeCheck className="size-6" />
-                    <span className="text-[8px] font-bold tracking-widest">
+                  <span className="flex size-12 shrink-0 flex-col items-center justify-center rounded-full bg-primary text-primary-foreground shadow-sm">
+                    <BadgeCheck className="size-5" />
+                    <span className="text-[7px] font-bold tracking-widest">
                       VERIFIED
                     </span>
                   </span>
 
-                  <div className="flex-1">
-                    <p className="text-sm font-bold text-slate-800">
-                      Platform Director
+                  <div className="flex-1 text-right">
+                    <p className="text-xs font-bold text-foreground">
+                      LMS Platform
                     </p>
-                    <p className="mt-1 border-t border-slate-300 pt-1 text-[10px] tracking-wider text-slate-400 uppercase">
-                      Signature
+                    <p className="mt-1 border-t border-border pt-1 text-[9px] tracking-wider text-muted-foreground uppercase">
+                      Issued by
                     </p>
                   </div>
                 </div>
 
-                <p className="mt-6 text-[10px] tracking-wider text-slate-400 uppercase">
-                  Verify at /verify/AB12CD
+                <p className="mt-5 text-[9px] tracking-wider text-muted-foreground uppercase">
+                  Verify online at /verify
                 </p>
               </div>
             </div>

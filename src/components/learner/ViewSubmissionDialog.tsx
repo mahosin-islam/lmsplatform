@@ -58,7 +58,7 @@ export function ViewSubmissionDialog({
               href={submission.answerUrl}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center gap-1.5 text-sm font-medium text-indigo-600 hover:underline"
+              className="inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:underline"
             >
               <ExternalLink className="size-4" />
               Open Submission
@@ -94,7 +94,7 @@ export function ViewSubmissionDialog({
                   <p className="text-xs font-semibold text-emerald-700">
                     Instructor Feedback
                   </p>
-                  <p className="mt-1 text-sm text-slate-700">
+                  <p className="mt-1 text-sm text-foreground">
                     {submission.feedback}
                   </p>
                 </div>

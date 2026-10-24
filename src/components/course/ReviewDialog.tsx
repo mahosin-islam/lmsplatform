@@ -119,7 +119,7 @@ export function ReviewDialog({
                     className={`size-9 ${
                       star <= activeRating
                         ? "fill-amber-400 text-amber-400"
-                        : "text-gray-300"
+                        : "text-muted-foreground/30"
                     }`}
                   />
                 </button>

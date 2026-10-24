@@ -7,6 +7,7 @@ import { GraduationCap, LayoutDashboard, LogOut, Menu, User } from "lucide-react
 import { cn } from "cn";
 
 import { useAuth } from "@/lib/auth-context";
+import { ThemeToggle } from "@/components/shared/ThemeToggle";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -36,6 +37,8 @@ export function Navbar() {
 
   const isHome = pathname === "/";
   const isCourses = pathname.startsWith("/courses");
+  const isAbout = pathname === "/about";
+  const isContact = pathname === "/contact";
 
   const handleNavigate = (href: string) => {
     router.push(href);
@@ -66,6 +69,24 @@ export function Navbar() {
       >
         Courses
       </Link>
+      <Link
+        href="/about"
+        className={cn(
+          "rounded-md px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-muted hover:text-foreground",
+          isAbout && "font-semibold text-primary"
+        )}
+      >
+        About
+      </Link>
+      <Link
+        href="/contact"
+        className={cn(
+          "rounded-md px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-muted hover:text-foreground",
+          isContact && "font-semibold text-primary"
+        )}
+      >
+        Contact
+      </Link>
     </nav>
   );
 
@@ -88,6 +109,12 @@ export function Navbar() {
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => handleNavigate("/courses")}>
           Courses
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={() => handleNavigate("/about")}>
+          About
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={() => handleNavigate("/contact")}>
+          Contact
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         {isAuthenticated && user ? (
@@ -120,7 +147,7 @@ export function Navbar() {
   );
 
   return (
-    <header className="sticky top-0 z-50 border-b bg-white">
+    <header className="sticky top-0 z-50 border-b border-border bg-background/85 backdrop-blur-md">
       <div className="mx-auto h-16 max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-full items-center justify-between gap-4">
           {/* Left: Logo */}
@@ -140,6 +167,7 @@ export function Navbar() {
 
           {/* Right: Auth area */}
           <div className="flex shrink-0 items-center gap-2">
+            <ThemeToggle />
             {loading ? (
               <div className="flex items-center gap-2">
                 <div className="hidden size-8 animate-pulse rounded-full bg-muted sm:block" />

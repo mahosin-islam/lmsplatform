@@ -59,7 +59,7 @@ function buildActivityStats(data: LearnerDashboardData | null): ActivityStat[] {
       value: String(enrollments?.total ?? 0),
       subtext: `${enrollments?.active ?? 0} active`,
       icon: BookOpen,
-      iconBg: "bg-blue-100 text-blue-600",
+      iconBg: "bg-blue-100 text-blue-600 dark:bg-blue-500/15 dark:text-blue-300",
     },
     {
       key: "completed",
@@ -67,7 +67,7 @@ function buildActivityStats(data: LearnerDashboardData | null): ActivityStat[] {
       value: String(enrollments?.completed ?? 0),
       subtext: "courses",
       icon: CheckCircle2,
-      iconBg: "bg-emerald-100 text-emerald-600",
+      iconBg: "bg-emerald-100 text-emerald-600 dark:bg-emerald-500/15 dark:text-emerald-300",
     },
     {
       key: "certificates",
@@ -75,7 +75,7 @@ function buildActivityStats(data: LearnerDashboardData | null): ActivityStat[] {
       value: String(data?.certificates ?? 0),
       subtext: "earned",
       icon: Award,
-      iconBg: "bg-amber-100 text-amber-600",
+      iconBg: "bg-amber-100 text-amber-600 dark:bg-amber-500/15 dark:text-amber-300",
     },
     {
       key: "assignments",
@@ -83,7 +83,7 @@ function buildActivityStats(data: LearnerDashboardData | null): ActivityStat[] {
       value: String(data?.assignments ?? 0),
       subtext: "submitted",
       icon: ClipboardList,
-      iconBg: "bg-purple-100 text-purple-600",
+      iconBg: "bg-brand-teal/10 text-brand-teal-strong",
     },
     {
       key: "notifications",
@@ -91,7 +91,7 @@ function buildActivityStats(data: LearnerDashboardData | null): ActivityStat[] {
       value: String(notifications?.total ?? 0),
       subtext: `${notifications?.unread ?? 0} unread`,
       icon: Bell,
-      iconBg: "bg-rose-100 text-rose-600",
+      iconBg: "bg-rose-100 text-rose-600 dark:bg-rose-500/15 dark:text-rose-300",
     },
     {
       key: "progress",
@@ -99,7 +99,7 @@ function buildActivityStats(data: LearnerDashboardData | null): ActivityStat[] {
       value: `${avgProgress}%`,
       subtext: "across courses",
       icon: TrendingUp,
-      iconBg: "bg-indigo-100 text-indigo-600",
+      iconBg: "bg-primary/10 text-primary",
     },
   ];
 }

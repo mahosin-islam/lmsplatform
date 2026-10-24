@@ -85,9 +85,9 @@ function batchOptionLabel(batches: Batch[], id: string): string {
 }
 
 const BATCH_STATUS_CLASS: Record<string, string> = {
-  ACTIVE: "bg-emerald-100 text-emerald-700",
-  UPCOMING: "bg-amber-100 text-amber-700",
-  COMPLETED: "bg-slate-100 text-slate-500",
+  ACTIVE: "bg-emerald-100 text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-300",
+  UPCOMING: "bg-amber-100 text-amber-700 dark:bg-amber-500/15 dark:text-amber-300",
+  COMPLETED: "bg-muted text-muted-foreground",
 };
 
 export function AssignmentFormDialog({
@@ -423,7 +423,7 @@ export function AssignmentFormDialog({
                             variant="secondary"
                             className={
                               BATCH_STATUS_CLASS[batch.status] ??
-                              "bg-slate-100 text-slate-500"
+                              "bg-muted text-muted-foreground"
                             }
                           >
                             {batch.status}

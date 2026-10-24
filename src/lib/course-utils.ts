@@ -1,9 +1,17 @@
 import type { BatchSummary, Course, CourseLevel } from "@/types";
 
+export const LEVEL_LABEL: Record<CourseLevel, string> = {
+  BEGINNER: "Beginner",
+  INTERMEDIATE: "Intermediate",
+  ADVANCED: "Advanced",
+};
+
 export const LEVEL_BADGE_CLASS: Record<CourseLevel, string> = {
-  BEGINNER: "bg-green-100 text-green-700",
-  INTERMEDIATE: "bg-blue-100 text-blue-700",
-  ADVANCED: "bg-purple-100 text-purple-700",
+  BEGINNER:
+    "bg-emerald-50 text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-300",
+  INTERMEDIATE:
+    "bg-sky-50 text-sky-700 dark:bg-sky-500/15 dark:text-sky-300",
+  ADVANCED: "bg-amber-50 text-amber-700 dark:bg-amber-500/15 dark:text-amber-300",
 };
 
 export function formatPrice(price: number): string {

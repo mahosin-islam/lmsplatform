@@ -77,7 +77,7 @@ export function CertificateViewDialog({
         <div className="bg-amber-50 p-6 sm:p-10">
           <div className="certificate-printable rounded-lg border-4 border-amber-200 bg-amber-50 p-2 text-center sm:p-2.5">
             <div className="rounded-md border-2 border-amber-200 px-6 py-8 sm:px-12 sm:py-12">
-              <div className="mx-auto inline-flex size-16 items-center justify-center rounded-full bg-amber-100 text-amber-600">
+              <div className="mx-auto inline-flex size-16 items-center justify-center rounded-full bg-amber-100 text-amber-600 dark:bg-amber-500/15 dark:text-amber-300">
                 <GraduationCap className="size-8" />
               </div>
 
@@ -90,7 +90,7 @@ export function CertificateViewDialog({
                 This is proudly presented to
               </p>
 
-              <p className="mt-3 text-2xl font-bold tracking-wide text-slate-900 sm:text-3xl">
+              <p className="mt-3 text-2xl font-bold tracking-wide text-foreground sm:text-3xl">
                 {certificate.learnerName}
               </p>
               <div className="mx-auto mt-2 h-0.5 w-48 bg-slate-700" />
@@ -99,7 +99,7 @@ export function CertificateViewDialog({
                 For successfully completing the course
               </p>
 
-              <p className="mt-3 text-xl font-bold italic text-slate-900 sm:text-2xl">
+              <p className="mt-3 text-xl font-bold italic text-foreground sm:text-2xl">
                 {certificate.courseName}
               </p>
 
@@ -122,10 +122,10 @@ export function CertificateViewDialog({
               </div>
 
               <div className="mt-10 flex items-center justify-center gap-8 text-xs text-muted-foreground">
-                <div className="flex-1 border-t border-slate-300 pt-2 text-center">
+                <div className="flex-1 border-t border-border pt-2 text-center">
                   Instructor
                 </div>
-                <div className="flex-1 border-t border-slate-300 pt-2 text-center">
+                <div className="flex-1 border-t border-border pt-2 text-center">
                   Platform
                 </div>
               </div>

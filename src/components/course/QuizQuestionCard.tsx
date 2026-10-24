@@ -101,7 +101,7 @@ export function QuizQuestionCard({
           <div className="flex flex-wrap items-center gap-2">
             <Badge
               variant="secondary"
-              className="bg-indigo-100 text-indigo-700"
+              className="bg-primary/10 text-primary"
             >
               Q{index + 1}
             </Badge>
@@ -109,10 +109,10 @@ export function QuizQuestionCard({
               Question {index + 1}
             </span>
             {question.isNew ? (
-              <Badge className="bg-emerald-100 text-emerald-700">New</Badge>
+              <Badge className="bg-emerald-100 text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-300">New</Badge>
             ) : null}
             {question.isDirty ? (
-              <Badge className="bg-amber-100 text-amber-700">Unsaved</Badge>
+              <Badge className="bg-amber-100 text-amber-700 dark:bg-amber-500/15 dark:text-amber-300">Unsaved</Badge>
             ) : null}
           </div>
           <div className="flex shrink-0 items-center gap-1">
